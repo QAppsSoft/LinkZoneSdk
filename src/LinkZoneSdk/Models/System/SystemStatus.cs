@@ -1,0 +1,93 @@
+﻿using System.Text.Json.Serialization;
+
+namespace LinkZoneSdk.Models.System
+{
+    public class SystemStatus
+    {
+        [JsonConstructor]
+        public SystemStatus(
+            int chgState,
+            int batCap,
+            int batLevel,
+            int smsState,
+            int connectionStatus,
+            int conprofileerror,
+            int clearCode,
+            int mpdpRejectCount,
+            int networkType,
+            string networkName,
+            int roaming,
+            int domesticRoaming,
+            int signalStrength,
+            int wlanState,
+            int currNum,
+            int totalConnNum
+        )
+        {
+            this.ChgState = chgState;
+            this.BatCap = batCap;
+            this.BatLevel = batLevel;
+            this.SmsState = smsState;
+            this.ConnectionStatus = connectionStatus;
+            this.Conprofileerror = conprofileerror;
+            this.ClearCode = clearCode;
+            this.MPdpRejectCount = mpdpRejectCount;
+            this.NetworkType = networkType;
+            this.NetworkName = networkName;
+            this.Roaming = roaming;
+            this.DomesticRoaming = domesticRoaming;
+            this.SignalStrength = signalStrength;
+            this.WlanState = wlanState;
+            this.CurrNum = currNum;
+            this.TotalConnNum = totalConnNum;
+        }
+
+        [JsonPropertyName("chg_state")]
+        public int ChgState { get; }
+
+        [JsonPropertyName("bat_cap")]
+        public int BatCap { get; }
+
+        [JsonPropertyName("bat_level")]
+        public int BatLevel { get; }
+
+        [JsonPropertyName("SmsState")]
+        public int SmsState { get; }
+
+        [JsonPropertyName("ConnectionStatus")]
+        public int ConnectionStatus { get; }
+
+        [JsonPropertyName("Conprofileerror")]
+        public int Conprofileerror { get; }
+
+        [JsonPropertyName("ClearCode")]
+        public int ClearCode { get; }
+
+        [JsonPropertyName("mPdpRejectCount")]
+        public int MPdpRejectCount { get; }
+
+        [JsonPropertyName("NetworkType")]
+        public int NetworkType { get; }
+
+        [JsonPropertyName("NetworkName")]
+        public string NetworkName { get; }
+
+        [JsonPropertyName("Roaming")]
+        public int Roaming { get; }
+
+        [JsonPropertyName("Domestic_Roaming")]
+        public int DomesticRoaming { get; }
+
+        [JsonPropertyName("SignalStrength")]
+        public int SignalStrength { get; }
+
+        [JsonPropertyName("WlanState")]
+        public int WlanState { get; }
+
+        [JsonPropertyName("curr_num")]
+        public int CurrNum { get; }
+
+        [JsonPropertyName("TotalConnNum")]
+        public int TotalConnNum { get; }
+    }
+}
