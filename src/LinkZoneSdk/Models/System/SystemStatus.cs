@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LinkZoneSdk.JsonConverters;
 
 namespace LinkZoneSdk.Models.System
 {
@@ -14,7 +15,7 @@ namespace LinkZoneSdk.Models.System
             int conprofileerror,
             int clearCode,
             int mpdpRejectCount,
-            int networkType,
+            string networkType,
             string networkName,
             int roaming,
             int domesticRoaming,
@@ -66,8 +67,9 @@ namespace LinkZoneSdk.Models.System
         [JsonPropertyName("mPdpRejectCount")]
         public int MPdpRejectCount { get; }
 
+        [JsonConverter(typeof(NetworkTypeJsonConverter))]
         [JsonPropertyName("NetworkType")]
-        public int NetworkType { get; }
+        public string NetworkType { get; }
 
         [JsonPropertyName("NetworkName")]
         public string NetworkName { get; }

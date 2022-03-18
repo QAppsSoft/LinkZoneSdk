@@ -8,7 +8,7 @@ namespace LinkZoneSdk.Infrastructure
         {
             services.AddHttpClient();
 
-            services.AddTransient<ApiService>();
+            services.AddSingleton<IApiService, ApiService>();
             services.AddSingleton<ISdk, Sdk>();
 
             return services;

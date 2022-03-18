@@ -5,11 +5,11 @@ namespace LinkZoneSdk
 {
     internal partial class Sdk : ISdk
     {
-        private readonly ApiService _apiService;
+        private readonly IApiService _apiService;
 
         internal static IPAddress DefaultAddress { get; private set; } = IPAddress.Parse("192.168.1.1");
 
-        public Sdk(ApiService apiService)
+        public Sdk(IApiService apiService)
         {
             _apiService = apiService;
         }
@@ -42,6 +42,11 @@ namespace LinkZoneSdk
         }
 
         public IConnection Connection()
+        {
+            return this;
+        }
+
+        public ISystem System()
         {
             return this;
         }

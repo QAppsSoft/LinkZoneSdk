@@ -4,5 +4,6 @@
     {
         IUser User();
         IConnection Connection();
+        ISystem System();
     }
 }

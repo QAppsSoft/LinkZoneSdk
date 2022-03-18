@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LinkZoneSdk
 {
-    public sealed class ApiService
+    public sealed class ApiService : IApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
