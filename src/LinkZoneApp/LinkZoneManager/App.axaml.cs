@@ -1,13 +1,19 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using LinkZoneManager.ViewModels;
+using LinkZoneManager.ViewModels.Interfaces;
 using LinkZoneManager.Views;
+using LinkZoneSdk.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LinkZoneManager
 {
     public partial class App : Application
     {
+        public static IServiceProvider Services = null!; // Initialized before use
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -15,22 +21,51 @@ namespace LinkZoneManager
 
         public override void OnFrameworkInitializationCompleted()
         {
+            ConfigureServiceProvider();
+
+            var viewModel = Services.GetService<MainWindowViewModel>();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainViewModel()
+                    DataContext = viewModel
                 };
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView
+                singleViewPlatform.MainView = new MainWindow
                 {
-                    DataContext = new MainViewModel()
+                    DataContext = viewModel
                 };
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private static void ConfigureServiceProvider()
+        {
+            var services = ConfigureServices();
+            Services = services.BuildServiceProvider();
+        }
+
+        private static IServiceCollection ConfigureServices()
+        {
+            var services = new ServiceCollection();
+            
+            services.AddTransient<MainWindowViewModel>();
+
+            services.Scan(scan =>
+            {
+                scan.FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo<IPageViewModel>())
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime();
+            });
+
+            services.AddLinkZoneSdk();
+
+            return services;
         }
     }
 }

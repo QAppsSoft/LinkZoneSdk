@@ -1,12 +1,13 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"			 
-             xmlns:local="using:LinkZoneManager"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sty="using:FluentAvalonia.Styling"
+             xmlns:linkZoneManager="clr-namespace:LinkZoneManager"
              x:Class="LinkZoneManager.App">
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        <linkZoneManager:ViewLocator />
     </Application.DataTemplates>
-
-    <Application.Styles>		
-        <FluentTheme Mode="Dark"/>		
+    <Application.Styles>
+        <sty:FluentAvaloniaTheme />
+        <StyleInclude Source="/Styles/OptionsDisplayItemStyles.axaml" />
     </Application.Styles>
 </Application>

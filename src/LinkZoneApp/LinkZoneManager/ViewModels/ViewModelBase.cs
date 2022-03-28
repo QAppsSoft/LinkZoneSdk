@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using LinkZoneManager.ViewModels.Interfaces;
 using ReactiveUI;
 
 namespace LinkZoneManager.ViewModels
 {
-    public class ViewModelBase : ReactiveObject
+    public class ViewModelBase : ReactiveObject, IViewModel
     {
     }
 }

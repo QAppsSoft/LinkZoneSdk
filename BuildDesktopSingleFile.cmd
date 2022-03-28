@@ -1,1 +1,2 @@
 dotnet publish "src/LinkZoneApp/LinkZoneManager.Desktop/LinkZoneManager.Desktop.csproj" -p:PublishSingleFile=true -r win-x64 -c Release --self-contained false -p:IncludeNativeLibrariesForSelfExtract=true -o "src/LinkZoneApp/LinkZoneManager.Desktop/bin/publish"
+start src\LinkZoneApp\LinkZoneManager.Desktop\bin\publish

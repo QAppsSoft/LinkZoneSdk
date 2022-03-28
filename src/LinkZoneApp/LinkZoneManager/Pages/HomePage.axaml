@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LinkZoneManager.Pages.HomePage">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  VerticalScrollBarVisibility="Auto"
+                  Padding="18">
+        <StackPanel Spacing="4">
+            <Border Padding="{StaticResource ButtonPadding}"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource OverlayCornerRadius}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal">
+                        <ToggleSwitch OnContent="Connected" OffContent="Disconnected" />
+                    </StackPanel>
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+                    <StackPanel Orientation="Horizontal">
+						<Viewbox VerticalAlignment="Center"
+                                 Width="24" Height="24">
+                            <controls:IconElement>M9.4296875 9.984375 A 1.50015 1.50015 0 0 0 8.2675781 10.482422C1.2457719 18.098381 1.2450175 29.890165 8.265625 37.515625 A 1.50015 1.50015 0 1 0 10.472656 35.484375C4.493264 28.989835 4.4944628 19.001619 10.472656 12.517578 A 1.50015 1.50015 0 0 0 9.4296875 9.984375 z M 38.675781 9.984375 A 1.50015 1.50015 0 0 0 38.525391 9.9863281 A 1.50015 1.50015 0 0 0 37.527344 12.517578C43.505537 19.001619 43.506736 28.989835 37.527344 35.484375 A 1.50015 1.50015 0 1 0 39.734375 37.515625C46.754982 29.890165 46.754275 18.098381 39.732422 10.482422 A 1.50015 1.50015 0 0 0 38.675781 9.984375 z M 31.5 15.144531 A 1.50015 1.50015 0 0 0 30.429688 17.710938C33.870426 21.220491 33.870426 26.779509 30.429688 30.289062 A 1.50015 1.50015 0 1 0 32.570312 32.390625C37.129575 27.740179 37.129575 20.259821 32.570312 15.609375 A 1.50015 1.50015 0 0 0 31.5 15.144531 z M 16.455078 15.146484 A 1.50015 1.50015 0 0 0 15.429688 15.609375C10.870425 20.259821 10.870426 27.740179 15.429688 32.390625 A 1.50015 1.50015 0 1 0 17.570312 30.289062C14.129575 26.779509 14.129575 21.220491 17.570312 17.710938 A 1.50015 1.50015 0 0 0 16.455078 15.146484 z M 24 21 A 3 3 0 0 0 24 27 A 3 3 0 0 0 24 21 z</controls:IconElement>
+                        </Viewbox>
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="CUBACEL" />
+                    </StackPanel>
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+					<StackPanel Orientation="Horizontal">
+                        <Viewbox VerticalAlignment="Center"
+                                 Width="24" Height="24">
+                            <controls:IconElement>M39.5 7C38.6716 7 38 7.67157 38 8.5C38 9.32842 38.6716 10 39.5 10C40.3284 10 41 9.32843 41 8.50001C41 7.67158 40.3284 7.00001 39.5 7L39.5 7ZM31.5 13C30.6716 13 30 13.6716 30 14.5C30 15.3284 30.6716 16 31.5 16C32.3284 16 33 15.3284 33 14.5C33 13.6716 32.3284 13 31.5 13L31.5 13ZM39.5 13C38.6716 13 38 13.6716 38 14.5C38 15.3284 38.6716 16 39.5 16C40.3284 16 41 15.3284 41 14.5C41 13.6716 40.3284 13 39.5 13L39.5 13ZM23.5 19C22.6716 19 22 19.6716 22 20.5C22 21.3284 22.6716 22 23.5 22C24.3284 22 25 21.3284 25 20.5C25 19.6716 24.3284 19 23.5 19L23.5 19ZM31.5 19C30.6716 19 30 19.6716 30 20.5C30 21.3284 30.6716 22 31.5 22C32.3284 22 33 21.3284 33 20.5C33 19.6716 32.3284 19 31.5 19L31.5 19ZM39.5 19C38.6716 19 38 19.6716 38 20.5C38 21.3284 38.6716 22 39.5 22C40.3284 22 41 21.3284 41 20.5C41 19.6716 40.3284 19 39.5 19L39.5 19ZM15.5 25C14.6716 25 14 25.6716 14 26.5C14 27.3284 14.6716 28 15.5 28C16.3284 28 17 27.3284 17 26.5C17 25.6716 16.3284 25 15.5 25L15.5 25ZM23.5 25C22.6716 25 22 25.6716 22 26.5C22 27.3284 22.6716 28 23.5 28C24.3284 28 25 27.3284 25 26.5C25 25.6716 24.3284 25 23.5 25L23.5 25ZM31.5 25C30.6716 25 30 25.6716 30 26.5C30 27.3284 30.6716 28 31.5 28C32.3284 28 33 27.3284 33 26.5C33 25.6716 32.3284 25 31.5 25L31.5 25ZM39.5 25C38.6716 25 38 25.6716 38 26.5C38 27.3284 38.6716 28 39.5 28C40.3284 28 41 27.3284 41 26.5C41 25.6716 40.3284 25 39.5 25L39.5 25ZM7.47656 30.9785C6.6489 30.9914 5.98813 31.6723 6 32.5L6 38.5C5.99235 39.041 6.27656 39.5441 6.74381 39.8168C7.21105 40.0895 7.78894 40.0895 8.25619 39.8168C8.72343 39.5441 9.00765 39.041 9 38.5L9 32.5C9.00582 32.0944 8.84712 31.7037 8.56009 31.417C8.27306 31.1304 7.88217 30.9722 7.47656 30.9785L7.47656 30.9785ZM15.5 31C14.6716 31 14 31.6716 14 32.5C14 33.3284 14.6716 34 15.5 34C16.3284 34 17 33.3284 17 32.5C17 31.6716 16.3284 31 15.5 31L15.5 31ZM23.5 31C22.6716 31 22 31.6716 22 32.5C22 33.3284 22.6716 34 23.5 34C24.3284 34 25 33.3284 25 32.5C25 31.6716 24.3284 31 23.5 31L23.5 31ZM31.5 31C30.6716 31 30 31.6716 30 32.5C30 33.3284 30.6716 34 31.5 34C32.3284 34 33 33.3284 33 32.5C33 31.6716 32.3284 31 31.5 31L31.5 31ZM39.5 31C38.6716 31 38 31.6716 38 32.5C38 33.3284 38.6716 34 39.5 34C40.3284 34 41 33.3284 41 32.5C41 31.6716 40.3284 31 39.5 31L39.5 31ZM15.5 37C14.6716 37 14 37.6716 14 38.5C14 39.3284 14.6716 40 15.5 40C16.3284 40 17 39.3284 17 38.5C17 37.6716 16.3284 37 15.5 37L15.5 37ZM23.5 37C22.6716 37 22 37.6716 22 38.5C22 39.3284 22.6716 40 23.5 40C24.3284 40 25 39.3284 25 38.5C25 37.6716 24.3284 37 23.5 37L23.5 37ZM31.5 37C30.6716 37 30 37.6716 30 38.5C30 39.3284 30.6716 40 31.5 40C32.3284 40 33 39.3284 33 38.5C33 37.6716 32.3284 37 31.5 37L31.5 37ZM39.5 37C38.6716 37 38 37.6716 38 38.5C38 39.3284 38.6716 40 39.5 40C40.3284 40 41 39.3284 41 38.5C41 37.6716 40.3284 37 39.5 37L39.5 37Z</controls:IconElement>
+                        </Viewbox>
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="3G+" />
+                    </StackPanel>
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+					<StackPanel Orientation="Horizontal">
+						<Viewbox VerticalAlignment="Center"
+                                 Width="24" Height="24">
+							<controls:IconElement>M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L20 30C21.105 30 22 29.105 22 28L22 20C22 18.895 21.105 18 20 18L12 18 z</controls:IconElement>
+						</Viewbox>
+						<TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="15 %"></TextBlock>
+					</StackPanel>
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox VerticalAlignment="Center"
+                                 Width="24" Height="24">
+                            <controls:IconElement>M16 5C12.151772 5 9 8.1517752 9 12C9 15.848225 12.151772 19 16 19C19.848228 19 23 15.848225 23 12C23 8.1517752 19.848228 5 16 5 z M 32 5C28.151772 5 25 8.1517752 25 12C25 15.848225 28.151772 19 32 19C35.848228 19 39 15.848225 39 12C39 8.1517752 35.848228 5 32 5 z M 16 8C18.226909 8 20 9.7730927 20 12C20 14.226907 18.226909 16 16 16C13.773091 16 12 14.226907 12 12C12 9.7730927 13.773091 8 16 8 z M 32 8C34.226909 8 36 9.7730927 36 12C36 14.226907 34.226909 16 32 16C29.773091 16 28 14.226907 28 12C28 9.7730927 29.773091 8 32 8 z M 9.5 21C7.57 21 6 22.57 6 24.5L6 34C6 39.514 10.486 44 16 44C18.542 44 20.859 43.039703 22.625 41.470703C21.989 40.673703 21.452203 39.794563 21.033203 38.851562C19.759203 40.173563 17.976 41 16 41C12.14 41 9 37.86 9 34L9 24.5C9 24.224 9.224 24 9.5 24L20.025391 24C20.128391 22.867 20.572766 21.831 21.259766 21L9.5 21 z M 25.5 21C23.585045 21 22 22.585045 22 24.5L22 34C22 39.504822 26.495178 44 32 44C37.504822 44 42 39.504822 42 34L42 24.5C42 22.585045 40.414955 21 38.5 21L25.5 21 z M 25.5 24L38.5 24C38.795045 24 39 24.204955 39 24.5L39 34C39 37.883178 35.883178 41 32 41C28.116822 41 25 37.883178 25 34L25 24.5C25 24.204955 25.204955 24 25.5 24 z</controls:IconElement>
+                        </Viewbox>
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="Connected user(s)"></TextBlock>
+                    </StackPanel>
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+                    <ComboBox HorizontalAlignment="Stretch"></ComboBox>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LinkZoneManager.Pages.AboutPage">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  VerticalScrollBarVisibility="Auto"
+                  Padding="18">
+        <StackPanel Spacing="16">
+            <Border Padding="{StaticResource ButtonPadding}"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource OverlayCornerRadius}">
+
+                <StackPanel Spacing="16">
+                    <TextBlock Text="About" VerticalAlignment="Top"
+                               Classes="TitleTextBlockStyle"
+                               Padding="0 0 0 0" />
+
+                    <TextBlock Margin="0 0" Text="LinkZone Manager" TextWrapping="Wrap" />
+
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+
+                    <TextBlock TextWrapping="Wrap" Padding="0 0 0 0">
+                        <x:String xml:space="preserve">
+The Alcatel LinkZone device allow to share over a WiFi hotspot the internet provided by your mobile data plan.
+
+LinkZone Manager allows, using the internal web api, access to most of the public options delivered by the device.
+
+But provide access to some hidden options like USSD execution.
+
+In the first version will provide access to some basic options like connect and disconnect, USSD execution, battery usage, network type switch.
+
+Will have some fixed functions, but hopefully soon, I wil make it more usable for different networks.
+                        </x:String>
+                    </TextBlock>
+
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+
+                    <TextBlock TextWrapping="Wrap" Padding="0 0 0 0">
+                        <x:String xml:space="preserve">
+Goals (not in order):
+                        </x:String>
+                    </TextBlock>
+
+                    <TextBlock TextWrapping="Wrap" Padding="32 0 0 0">
+                        <x:String xml:space="preserve">
+• Access basic device functions, like connect/disconnect, battery and signal control.
+• Allow access USSD functionality.
+• Send/receive SMS.
+• Firewall control, MAC filtering, IP filtering, port forwarding, etc.
+• More to come
+                        </x:String>
+                    </TextBlock>
+
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+
+                    <TextBlock TextWrapping="Wrap" Padding="0 0 0 0">
+                        <x:String xml:space="preserve">
+Tools used:
+                        </x:String>
+                    </TextBlock>
+
+                    <controls:HyperlinkButton NavigateUri="https://github.com/amwx/FluentAvalonia"
+                                              Content="FluentAvalonia" />
+                    <controls:HyperlinkButton NavigateUri="https://github.com/AvaloniaUI/Avalonia"
+                                              Content="AvaloniaUI" />
+                    <controls:HyperlinkButton NavigateUri="https://github.com/reactiveui/ReactiveUI"
+                                              Content="ReactiveUI" />
+                    <controls:HyperlinkButton NavigateUri="https://github.com/khellang/Scrutor"
+                                              Content="Scrutor" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

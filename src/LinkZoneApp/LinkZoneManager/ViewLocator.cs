@@ -1,31 +1,52 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using JetBrains.Annotations;
 using LinkZoneManager.ViewModels;
+using LinkZoneManager.ViewModels.Interfaces;
 
 namespace LinkZoneManager
 {
     public class ViewLocator : IDataTemplate
     {
-        public IControl? Build(object? data)
+        [CanBeNull]
+        public IControl Build([CanBeNull] object data)
         {
-            if (data is null)
-                return null;
-
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
-
-            if (type != null)
+            if (data == null)
             {
-                return (Control)Activator.CreateInstance(type)!;
+                return null;
             }
-            
-            return new TextBlock { Text = name };
+
+            var name = data.GetType().FullName;
+            return GetViewControl(name);
         }
 
-        public bool Match(object? data)
+        public bool Match(object data)
         {
-            return data is ViewModelBase;
+            return data is IViewModel;
+        }
+
+        private static Control GetViewControl(string name)
+        {
+            var control = CreateInstanceFor("View", name);
+
+            if (control != null)
+            {
+                return control;
+            }
+
+            control = CreateInstanceFor("Page", name);
+
+            return control ?? new TextBlock { Text = name };
+        }
+
+        private static Control? CreateInstanceFor(string viewTrailingName, string name)
+        {
+            var getViewName = name.Replace("ViewModel", viewTrailingName);
+
+            var type = Type.GetType(getViewName);
+
+            return type == null ? null : (Control)Activator.CreateInstance(type)!;
         }
     }
 }
