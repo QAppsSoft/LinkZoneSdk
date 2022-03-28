@@ -7,7 +7,7 @@ namespace LinkZoneSdk.Models.System
     {
         [JsonConstructor]
         public SystemStatus(
-            int chgState,
+            BatteryStatus chgState,
             int batCap,
             int batLevel,
             int smsState,
@@ -44,7 +44,7 @@ namespace LinkZoneSdk.Models.System
         }
 
         [JsonPropertyName("chg_state")]
-        public int ChgState { get; }
+        public BatteryStatus ChgState { get; }
 
         [JsonPropertyName("bat_cap")]
         public int BatCap { get; }
