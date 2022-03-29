@@ -56,7 +56,8 @@ namespace LinkZoneManager
             var services = new ServiceCollection();
             
             services.AddTransient<MainWindowViewModel>();
-            services.AddTransient<IBasicInfoReaderService, BasicInfoReaderService>();
+            services.AddSingleton<IBasicInfoReaderService, BasicInfoReaderService>();
+            services.AddTransient<IMobileNetworkController, MobileNetworkController>();
 
             services.Scan(scan =>
             {

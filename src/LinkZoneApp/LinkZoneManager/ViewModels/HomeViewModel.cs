@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using LinkZoneManager.Services.Interfaces;
 using LinkZoneSdk.Models.System;
 using ReactiveUI;
@@ -9,7 +10,7 @@ namespace LinkZoneManager.ViewModels;
 
 public class HomeViewModel : PageViewModelBase, IActivatableViewModel
 {
-    public HomeViewModel(IBasicInfoReaderService infoReader)
+    public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkController networkController)
     {
         Activator = new ViewModelActivator();
         this.WhenActivated(disposables =>
@@ -45,6 +46,16 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
 
             var setConnectedUsers = infoReader.ConnectedUsers
                 .ToPropertyEx(this, vm => vm.ConnectedUsers)
+                .DisposeWith(disposables);
+
+            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5));
+
+            var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
+                .SkipUntil(waitToStart)
+                .Select(value =>
+                    Observable.FromAsync(cancellation => networkController.SwitchState(value, cancellation)))
+                .Switch()
+                .Subscribe()
                 .DisposeWith(disposables);
         });
     }
