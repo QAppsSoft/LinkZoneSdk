@@ -2,6 +2,8 @@ using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using LinkZoneManager.Services;
+using LinkZoneManager.Services.Interfaces;
 using LinkZoneManager.ViewModels;
 using LinkZoneManager.ViewModels.Interfaces;
 using LinkZoneManager.Views;
@@ -54,6 +56,7 @@ namespace LinkZoneManager
             var services = new ServiceCollection();
             
             services.AddTransient<MainWindowViewModel>();
+            services.AddTransient<IBasicInfoReaderService, BasicInfoReaderService>();
 
             services.Scan(scan =>
             {

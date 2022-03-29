@@ -29,7 +29,7 @@
                     CornerRadius="{StaticResource OverlayCornerRadius}">
                 <StackPanel Spacing="16">
                     <StackPanel Orientation="Horizontal">
-                        <ToggleSwitch OnContent="Connected" OffContent="Disconnected" />
+                        <ToggleSwitch OnContent="Connected" OffContent="Disconnected" IsChecked="{Binding MobilNetworkStatus}" />
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
@@ -39,7 +39,7 @@
                                  Width="24" Height="24">
                             <Path StrokeThickness = "1" Fill= "white" Data= "{StaticResource NetworkNameIcon}"/>
                         </Viewbox>
-                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="CUBACEL" />
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="{Binding MobilNetworkName}" />
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
@@ -49,7 +49,7 @@
                                  Width="24" Height="24">
                             <Path StrokeThickness = "1" Fill= "white" Data= "{StaticResource SignalLevelLowIcon}"/>
                         </Viewbox>
-                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="3G+" />
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="{Binding MobilNetworkType}" />
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
@@ -59,8 +59,8 @@
                                  Width="24" Height="24">
                             <Path StrokeThickness = "1" Fill= "white" Data= "{StaticResource BatteryIcon}"/>
                         </Viewbox>
-						<TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="15 %"></TextBlock>
-					</StackPanel>
+						<TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="{Binding BatteryLevel, StringFormat={}{0} %}" />
+                    </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
                             Height="1" />
@@ -69,7 +69,7 @@
                                  Width="24" Height="24">
                             <Path StrokeThickness = "1" Fill= "white" Data= "{StaticResource UsersIcon}"/>
                         </Viewbox>
-                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="Connected user(s)"></TextBlock>
+                        <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="{Binding ConnectedUsers, StringFormat={}{0} user(s)}" />
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
