@@ -43,10 +43,7 @@
                             Margin="-20"
                             Height="1" />
                     <StackPanel Orientation="Horizontal">
-                        <Viewbox VerticalAlignment="Center"
-                                 Width="24" Height="24">
-                            <Path StrokeThickness="1" Fill="white" Data="{StaticResource SignalLevelLowIcon}" />
-                        </Viewbox>
+                        <controls:SignalStrengthIconControl />
                         <TextBlock VerticalAlignment="Center" Margin="28 0 0 0" Text="{Binding MobilNetworkType}" />
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"

@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LinkZoneManager.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:CompileBindings="True" x:DataType="viewModels:HomeViewModel"
+             x:Class="LinkZoneManager.Controls.SignalStrengthIconControl">
+	<UserControl.Resources>
+
+        <PathGeometry x:Key="NoSignalIcon">M39.5 7A1.5 1.5 0 1039.5 10 1.5 1.5 0 1039.5 7zM39.5 13A1.5 1.5 0 1039.5 16 1.5 1.5 0 1039.5 13zM39.5 19A1.5 1.5 0 1039.5 22 1.5 1.5 0 1039.5 19zM39.5 25A1.5 1.5 0 1039.5 28 1.5 1.5 0 1039.5 25zM39.5 37A1.5 1.5 0 1039.5 40 1.5 1.5 0 1039.5 37zM39.5 31A1.5 1.5 0 1039.5 34 1.5 1.5 0 1039.5 31zM31.5 13A1.5 1.5 0 1031.5 16 1.5 1.5 0 1031.5 13zM31.5 19A1.5 1.5 0 1031.5 22 1.5 1.5 0 1031.5 19zM31.5 25A1.5 1.5 0 1031.5 28 1.5 1.5 0 1031.5 25zM31.5 37A1.5 1.5 0 1031.5 40 1.5 1.5 0 1031.5 37zM31.5 31A1.5 1.5 0 1031.5 34 1.5 1.5 0 1031.5 31zM23.5 19A1.5 1.5 0 1023.5 22 1.5 1.5 0 1023.5 19zM23.5 25A1.5 1.5 0 1023.5 28 1.5 1.5 0 1023.5 25zM23.5 37A1.5 1.5 0 1023.5 40 1.5 1.5 0 1023.5 37zM23.5 31A1.5 1.5 0 1023.5 34 1.5 1.5 0 1023.5 31zM15.5 25A1.5 1.5 0 1015.5 28 1.5 1.5 0 1015.5 25zM15.5 37A1.5 1.5 0 1015.5 40 1.5 1.5 0 1015.5 37zM15.5 31A1.5 1.5 0 1015.5 34 1.5 1.5 0 1015.5 31zM7.5 37A1.5 1.5 0 107.5 40 1.5 1.5 0 107.5 37zM7.5 31A1.5 1.5 0 107.5 34 1.5 1.5 0 107.5 31z</PathGeometry>
+		<PathGeometry x:Key="LowSignalIcon">M39.5 7 A 1.5 1.5 0 0 0 39.5 10 A 1.5 1.5 0 0 0 39.5 7 z M 31.5 13 A 1.5 1.5 0 0 0 31.5 16 A 1.5 1.5 0 0 0 31.5 13 z M 39.5 13 A 1.5 1.5 0 0 0 39.5 16 A 1.5 1.5 0 0 0 39.5 13 z M 23.5 19 A 1.5 1.5 0 0 0 23.5 22 A 1.5 1.5 0 0 0 23.5 19 z M 31.5 19 A 1.5 1.5 0 0 0 31.5 22 A 1.5 1.5 0 0 0 31.5 19 z M 39.5 19 A 1.5 1.5 0 0 0 39.5 22 A 1.5 1.5 0 0 0 39.5 19 z M 15.5 25 A 1.5 1.5 0 0 0 15.5 28 A 1.5 1.5 0 0 0 15.5 25 z M 23.5 25 A 1.5 1.5 0 0 0 23.5 28 A 1.5 1.5 0 0 0 23.5 25 z M 31.5 25 A 1.5 1.5 0 0 0 31.5 28 A 1.5 1.5 0 0 0 31.5 25 z M 39.5 25 A 1.5 1.5 0 0 0 39.5 28 A 1.5 1.5 0 0 0 39.5 25 z M 7.4765625 30.978516 A 1.50015 1.50015 0 0 0 6 32.5L6 38.5 A 1.50015 1.50015 0 1 0 9 38.5L9 32.5 A 1.50015 1.50015 0 0 0 7.4765625 30.978516 z M 15.5 31 A 1.5 1.5 0 0 0 15.5 34 A 1.5 1.5 0 0 0 15.5 31 z M 23.5 31 A 1.5 1.5 0 0 0 23.5 34 A 1.5 1.5 0 0 0 23.5 31 z M 31.5 31 A 1.5 1.5 0 0 0 31.5 34 A 1.5 1.5 0 0 0 31.5 31 z M 39.5 31 A 1.5 1.5 0 0 0 39.5 34 A 1.5 1.5 0 0 0 39.5 31 z M 15.5 37 A 1.5 1.5 0 0 0 15.5 40 A 1.5 1.5 0 0 0 15.5 37 z M 23.5 37 A 1.5 1.5 0 0 0 23.5 40 A 1.5 1.5 0 0 0 23.5 37 z M 31.5 37 A 1.5 1.5 0 0 0 31.5 40 A 1.5 1.5 0 0 0 31.5 37 z M 39.5 37 A 1.5 1.5 0 0 0 39.5 40 A 1.5 1.5 0 0 0 39.5 37 z</PathGeometry>
+		<PathGeometry x:Key="FullSignalIcon">M39.5 7 A 1.5 1.5 0 0 0 39.5 10 A 1.5 1.5 0 0 0 39.5 7 z M 31.476562 12.978516 A 1.50015 1.50015 0 0 0 30 14.5L30 38.5 A 1.50015 1.50015 0 1 0 33 38.5L33 14.5 A 1.50015 1.50015 0 0 0 31.476562 12.978516 z M 39.5 13 A 1.5 1.5 0 0 0 39.5 16 A 1.5 1.5 0 0 0 39.5 13 z M 23.476562 18.978516 A 1.50015 1.50015 0 0 0 22 20.5L22 38.5 A 1.50015 1.50015 0 1 0 25 38.5L25 20.5 A 1.50015 1.50015 0 0 0 23.476562 18.978516 z M 39.5 19 A 1.5 1.5 0 0 0 39.5 22 A 1.5 1.5 0 0 0 39.5 19 z M 15.476562 24.978516 A 1.50015 1.50015 0 0 0 14 26.5L14 38.5 A 1.50015 1.50015 0 1 0 17 38.5L17 26.5 A 1.50015 1.50015 0 0 0 15.476562 24.978516 z M 39.5 25 A 1.5 1.5 0 0 0 39.5 28 A 1.5 1.5 0 0 0 39.5 25 z M 7.4765625 30.978516 A 1.50015 1.50015 0 0 0 6 32.5L6 38.5 A 1.50015 1.50015 0 1 0 9 38.5L9 32.5 A 1.50015 1.50015 0 0 0 7.4765625 30.978516 z M 39.5 31 A 1.5 1.5 0 0 0 39.5 34 A 1.5 1.5 0 0 0 39.5 31 z M 39.5 37 A 1.5 1.5 0 0 0 39.5 40 A 1.5 1.5 0 0 0 39.5 37 z</PathGeometry>
+		
+	</UserControl.Resources>
+	<Viewbox VerticalAlignment="Center" x:Name="BatteryIconViewBox"
+             Width="24" Height="24">
+		<Path x:Name="SignalStrengthIconPath" StrokeThickness="1" Fill="white" Data="{StaticResource NoSignalIcon}">
+			<Interaction.Behaviors>
+				<DataTriggerBehavior Binding="{Binding SignalStrength}"
+									 ComparisonCondition="Equal"
+									 Value="0">
+					<ChangePropertyAction TargetObject="SignalStrengthIconPath"
+										  PropertyName="Data"
+										  Value="{StaticResource NoSignalIcon}" />
+				</DataTriggerBehavior>
+				<DataTriggerBehavior Binding="{Binding SignalStrength}"
+									 ComparisonCondition="GreaterThanOrEqual"
+									 Value="1">
+					<ChangePropertyAction TargetObject="SignalStrengthIconPath"
+										  PropertyName="Data"
+										  Value="{StaticResource LowSignalIcon}" />
+				</DataTriggerBehavior>
+				<DataTriggerBehavior Binding="{Binding SignalStrength}"
+									 ComparisonCondition="GreaterThanOrEqual"
+									 Value="3">
+					<ChangePropertyAction TargetObject="SignalStrengthIconPath"
+										  PropertyName="Data"
+										  Value="{StaticResource FullSignalIcon}" />
+				</DataTriggerBehavior>
+            </Interaction.Behaviors>
+		</Path>
+	</Viewbox>
+</UserControl>

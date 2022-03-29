@@ -32,7 +32,7 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .DisposeWith(disposables);
 
             var setSignalLevel = infoReader.SignalLevel
-                .ToPropertyEx(this, vm => vm.SignalLevel)
+                .ToPropertyEx(this, vm => vm.SignalStrength)
                 .DisposeWith(disposables);
 
             var setBatteryStatus = infoReader.BatteryStatus
@@ -59,7 +59,7 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
     public string MobilNetworkType { get; }
 
     [ObservableAsProperty]
-    public int SignalLevel { get; }
+    public int SignalStrength { get; }
 
     [ObservableAsProperty]
     public ChargeState BatteryStatus { get; }
