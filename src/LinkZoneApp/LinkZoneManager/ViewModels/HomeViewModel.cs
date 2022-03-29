@@ -22,56 +22,53 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
             var setNetworkStatus = infoReader.MobilNetworkStatus
                 .Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
-            
+
             var setNetworkName = infoReader.MobilNetworkName
-                .Subscribe(value => MobilNetworkName = value)
+                .ToPropertyEx(this, vm => vm.MobilNetworkName)
                 .DisposeWith(disposables);
 
             var setNetworkType = infoReader.MobilNetworkType
-                .Subscribe(value => MobilNetworkType = value)
+                .ToPropertyEx(this, vm => vm.MobilNetworkType)
                 .DisposeWith(disposables);
 
             var setSignalLevel = infoReader.SignalLevel
-                .Subscribe(value => SignalLevel = value)
+                .ToPropertyEx(this, vm => vm.SignalLevel)
                 .DisposeWith(disposables);
 
             var setBatteryStatus = infoReader.BatteryStatus
-                .Subscribe(value => BatteryStatus = value)
+                .ToPropertyEx(this, vm => vm.BatteryStatus)
                 .DisposeWith(disposables);
 
-            var setBatteryLevel = infoReader.BatteryLevel
-                .Subscribe(value => BatteryLevel = value)
+            var setBatteryLevel = infoReader.BatteryCapacity
+                .ToPropertyEx(this, vm => vm.BatteryCapacity)
                 .DisposeWith(disposables);
 
             var setConnectedUsers = infoReader.ConnectedUsers
-                .Subscribe(value => ConnectedUsers = value)
+                .ToPropertyEx(this, vm => vm.ConnectedUsers)
                 .DisposeWith(disposables);
         });
-
-        var setNetworkName = infoReader.MobilNetworkName
-            .Subscribe(value => MobilNetworkName = value);
     }
 
     [Reactive]
-    public bool MobilNetworkStatus { get; private set; }
+    public bool MobilNetworkStatus { get; set; }
 
-    [Reactive]
-    public string MobilNetworkName { get; set; }
+    [ObservableAsProperty]
+    public string MobilNetworkName { get; }
 
-    [Reactive]
-    public string MobilNetworkType { get; private set; }
+    [ObservableAsProperty]
+    public string MobilNetworkType { get; }
 
-    [Reactive]
-    public int SignalLevel { get; private set; }
+    [ObservableAsProperty]
+    public int SignalLevel { get; }
 
-    [Reactive]
-    public ChargeState BatteryStatus { get; private set; }
+    [ObservableAsProperty]
+    public ChargeState BatteryStatus { get; }
 
-    [Reactive]
-    public int BatteryLevel { get; private set; }
+    [ObservableAsProperty]
+    public int BatteryCapacity { get; }
 
-    [Reactive]
-    public int ConnectedUsers { get; private set; }
+    [ObservableAsProperty]
+    public int ConnectedUsers { get; }
 
     public override int Order => 1;
 

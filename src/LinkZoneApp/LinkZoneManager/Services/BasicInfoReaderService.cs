@@ -33,19 +33,19 @@ internal class BasicInfoReaderService : IBasicInfoReaderService
             0 => false,
             2 => true,
             _ => false
-        });
+        }).DistinctUntilChanged();
 
-        MobilNetworkName = status.Select(value => value.NetworkName);
+        MobilNetworkName = status.Select(value => value.NetworkName).DistinctUntilChanged();
 
-        MobilNetworkType = status.Select(value => value.NetworkType);
+        MobilNetworkType = status.Select(value => value.NetworkType).DistinctUntilChanged();
 
-        SignalLevel = status.Select(value => value.SignalStrength);
+        SignalLevel = status.Select(value => value.SignalStrength).DistinctUntilChanged();
 
-        BatteryStatus = status.Select(value => value.ChargeState);
+        BatteryStatus = status.Select(value => value.ChargeState).DistinctUntilChanged();
 
-        BatteryLevel = status.Select(value => value.BatLevel);
+        BatteryCapacity = status.Select(value => value.BatCap).DistinctUntilChanged();
 
-        ConnectedUsers = status.Select(value => value.TotalConnNum);
+        ConnectedUsers = status.Select(value => value.TotalConnNum).DistinctUntilChanged();
     }
 
     public IObservable<bool> MobilNetworkStatus { get; }
@@ -54,7 +54,7 @@ internal class BasicInfoReaderService : IBasicInfoReaderService
     public IObservable<int> SignalLevel { get; }
 
     public IObservable<ChargeState> BatteryStatus { get; }
-    public IObservable<int> BatteryLevel { get; }
+    public IObservable<int> BatteryCapacity { get; }
 
     public IObservable<int> ConnectedUsers { get; }
     public void StopListening()

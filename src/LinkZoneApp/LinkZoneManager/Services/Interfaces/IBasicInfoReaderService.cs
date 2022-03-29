@@ -10,7 +10,7 @@ public interface IBasicInfoReaderService
     IObservable<string> MobilNetworkType { get; }
     IObservable<int> SignalLevel { get; }
     IObservable<ChargeState> BatteryStatus { get; }
-    IObservable<int> BatteryLevel { get; }
+    IObservable<int> BatteryCapacity { get; }
     IObservable<int> ConnectedUsers { get; }
 
     void StopListening();
