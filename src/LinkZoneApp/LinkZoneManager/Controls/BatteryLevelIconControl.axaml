@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:location="clr-namespace:LinkZoneSdk.Models.System;assembly=LinkZoneSdk"
+             xmlns:viewModels="clr-namespace:LinkZoneManager.ViewModels"
+             x:CompileBindings="True" x:DataType="viewModels:HomeViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="LinkZoneManager.Controls.BatteryLevelIconControl">
+	<UserControl.Resources>
+		<PathGeometry x:Key="BatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L20 30C21.105 30 22 29.105 22 28L22 20C22 18.895 21.105 18 20 18L12 18 z</PathGeometry>
+
+		<PathGeometry x:Key="EmptyBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z</PathGeometry>
+		<PathGeometry x:Key="FullBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L32 30C33.105 30 34 29.105 34 28L34 20C34 18.895 33.105 18 32 18L12 18 z</PathGeometry>
+		<PathGeometry x:Key="HalfBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L20 30C21.105 30 22 29.105 22 28L22 20C22 18.895 21.105 18 20 18L12 18 z</PathGeometry>
+		<PathGeometry x:Key="NoBatteryIcon">M42.470703 3.9863281 A 1.50015 1.50015 0 0 0 41.439453 4.4394531L27.878906 18L27.845703 18L15.845703 30L15.878906 30L4.4394531 41.439453 A 1.50015 1.50015 0 1 0 6.5605469 43.560547L14.121094 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 15.509486 38.917948 13.768369 37.318359 12.802734L43.560547 6.5605469 A 1.50015 1.50015 0 0 0 42.470703 3.9863281 z M 9.5 12C6.468 12 4 14.468 4 17.5L4 30.5C4 32.425 4.997 34.120516 6.5 35.103516L8.734375 32.867188C7.731375 32.542187 7 31.61 7 30.5L7 17.5C7 16.121 8.121 15 9.5 15L26.603516 15L29.603516 12L9.5 12 z M 35.050781 15.070312C36.165642 15.320108 37 16.293767 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L17.121094 33L20.121094 30L32 30C33.105 30 34 29.105 34 28L34 20C34 18.932568 33.162248 18.069742 32.109375 18.011719L35.050781 15.070312 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 28.981 10.706672 29.793844 11.638672 29.964844L23.603516 18L12 18 z</PathGeometry>
+		<PathGeometry x:Key="LowBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L14 30C15.105 30 16 29.105 16 28L16 20C16 18.895 15.105 18 14 18L12 18 z</PathGeometry>
+		<PathGeometry x:Key="HighBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L25 30C26.105 30 27 29.105 27 28L27 20C27 18.895 26.105 18 25 18L12 18 z</PathGeometry>
+		<PathGeometry x:Key="ChargingBatteryIcon">M9.5 12C6.4802259 12 4 14.480226 4 17.5L4 30.5C4 33.519774 6.4802259 36 9.5 36L34.5 36C37.519774 36 40 33.519774 40 30.5L40 28L42 28C43.105 28 44 27.105 44 26L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.480226 37.519774 12 34.5 12L9.5 12 z M 9.5 15L34.5 15C35.898226 15 37 16.101774 37 17.5L37 30.5C37 31.898226 35.898226 33 34.5 33L9.5 33C8.1017741 33 7 31.898226 7 30.5L7 17.5C7 16.101774 8.1017741 15 9.5 15 z M 20.804688 18.005859C20.672562 17.988734 20.535156 18.009359 20.410156 18.068359C20.159156 18.185359 20 18.437844 20 18.714844L20 24L13.890625 22.021484C13.566625 21.938484 13.230125 22.091672 13.078125 22.388672C13.025125 22.491672 13 22.604844 13 22.714844C13 22.921844 13.090812 23.124672 13.257812 23.263672L22.828125 29.833984C23.042125 30.011984 23.337891 30.050594 23.587891 29.933594C23.839891 29.815594 24 29.562156 24 29.285156L24 24L30.109375 25.978516C30.433375 26.061516 30.769875 25.908328 30.921875 25.611328C30.974875 25.508328 31 25.395156 31 25.285156C31 25.078156 30.909187 24.875328 30.742188 24.736328L21.171875 18.166016C21.065375 18.077516 20.936813 18.022984 20.804688 18.005859 z</PathGeometry>
+		<PathGeometry x:Key="AlertBatteryIcon">M9.5 12C6.468 12 4 14.468 4 17.5L4 30.5C4 33.532 6.468 36 9.5 36L22.050781 36C22.024781 35.669 22 35.338 22 35C22 34.318 22.068922 33.654 22.169922 33L9.5 33C8.121 33 7 31.879 7 30.5L7 17.5C7 16.121 8.121 15 9.5 15L34.5 15C35.879 15 37 16.121 37 17.5L37 22.169922C39.697 22.587922 42.119 23.825813 44 25.632812L44 22C44 20.895 43.105 20 42 20L40 20L40 17.5C40 14.468 37.532 12 34.5 12L9.5 12 z M 12 18C10.895 18 10 18.895 10 20L10 28C10 29.105 10.895 30 12 30L14 30C15.105 30 16 29.105 16 28L16 20C16 18.895 15.105 18 14 18L12 18 z M 35 24C28.925 24 24 28.925 24 35C24 41.075 28.925 46 35 46C41.075 46 46 41.075 46 35C46 28.925 41.075 24 35 24 z M 35 28C35.553 28 36 28.448 36 29L36 37C36 37.552 35.553 38 35 38C34.447 38 34 37.552 34 37L34 29C34 28.448 34.447 28 35 28 z M 35 39.75C35.69 39.75 36.25 40.31 36.25 41C36.25 41.69 35.69 42.25 35 42.25C34.31 42.25 33.75 41.69 33.75 41C33.75 40.31 34.31 39.75 35 39.75 z</PathGeometry>
+
+	</UserControl.Resources>
+    <Viewbox VerticalAlignment="Center" x:Name="BatteryIconViewBox"
+             Width="24" Height="24">
+        <Interaction.Behaviors>
+            <DataTriggerBehavior Binding="{Binding BatteryStatus}"
+                                 ComparisonCondition="Equal"
+                                 Value="{x:Static location:ChargeState.Charging}">
+                <ChangePropertyAction TargetObject="BatteryIconViewBox"
+                                      PropertyName="Child">
+                    <ChangePropertyAction.Value>
+                        <Path StrokeThickness="1" Fill="white"
+                              Data="{StaticResource ChargingBatteryIcon}" />
+                    </ChangePropertyAction.Value>
+                </ChangePropertyAction>
+            </DataTriggerBehavior>
+            <DataTriggerBehavior Binding="{Binding BatteryStatus}"
+                                 ComparisonCondition="Equal"
+                                 Value="{x:Static location:ChargeState.Full}">
+                <ChangePropertyAction TargetObject="BatteryIconViewBox"
+                                      PropertyName="Child">
+                    <ChangePropertyAction.Value>
+                        <Path StrokeThickness="1" Fill="white"
+                              Data="{StaticResource FullBatteryIcon}" />
+                    </ChangePropertyAction.Value>
+                </ChangePropertyAction>
+            </DataTriggerBehavior>
+            <DataTriggerBehavior Binding="{Binding BatteryStatus}"
+                                 ComparisonCondition="Equal"
+                                 Value="{x:Static location:ChargeState.NoCharging}">
+                <ChangePropertyAction TargetObject="BatteryIconViewBox"
+                                      PropertyName="Child">
+                    <ChangePropertyAction.Value>
+                        <Path x:Name="BatteryIconPath" StrokeThickness="1" Fill="white"
+                              Data="{StaticResource BatteryIcon}">
+                            <Interaction.Behaviors>
+								<DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="LessThanOrEqual"
+                                                     Value="5">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource EmptyBatteryIcon}" />
+                                </DataTriggerBehavior>
+                                <DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="GreaterThan"
+                                                     Value="5">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource AlertBatteryIcon}" />
+                                </DataTriggerBehavior>
+                                <DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="GreaterThanOrEqual"
+                                                     Value="15">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource LowBatteryIcon}" />
+                                </DataTriggerBehavior>
+                                <DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="GreaterThanOrEqual"
+                                                     Value="45">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource HalfBatteryIcon}" />
+                                </DataTriggerBehavior>
+                                <DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="GreaterThanOrEqual"
+                                                     Value="70">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource HighBatteryIcon}" />
+                                </DataTriggerBehavior>
+                                <DataTriggerBehavior Binding="{Binding BatteryCapacity}"
+                                                     ComparisonCondition="GreaterThanOrEqual"
+                                                     Value="95">
+                                    <ChangePropertyAction TargetObject="BatteryIconPath"
+                                                          PropertyName="Data"
+                                                          Value="{StaticResource FullBatteryIcon}" />
+                                </DataTriggerBehavior>
+                            </Interaction.Behaviors>
+                        </Path>
+                    </ChangePropertyAction.Value>
+                </ChangePropertyAction>
+            </DataTriggerBehavior>
+        </Interaction.Behaviors>
+    </Viewbox>
+</UserControl>

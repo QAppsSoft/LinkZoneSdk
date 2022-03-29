@@ -39,7 +39,7 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .ToPropertyEx(this, vm => vm.BatteryStatus)
                 .DisposeWith(disposables);
 
-            var setBatteryLevel = infoReader.BatteryCapacity
+            var setBatteryCapacity = infoReader.BatteryCapacity
                 .ToPropertyEx(this, vm => vm.BatteryCapacity)
                 .DisposeWith(disposables);
 
