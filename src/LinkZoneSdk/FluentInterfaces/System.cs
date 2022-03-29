@@ -8,7 +8,7 @@ namespace LinkZoneSdk
 {
     internal partial class Sdk : ISystem
     {
-        public async Task<Result<Dictionary<string, object>>> GetSystemInfo(CancellationToken? cancellation = null)
+        public async Task<Result<Dictionary<string, object>>> GetInfo(CancellationToken? cancellation = null)
         {
             var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("GetSystemInfo", "13.1", null, cancellation);
 
@@ -27,7 +27,7 @@ namespace LinkZoneSdk
             return Result.Fail("Failed to retrieve connection status");
         }
 
-        public async Task<Result<SystemStatus>> GetSystemStatus(CancellationToken? cancellation = null)
+        public async Task<Result<SystemStatus>> GetStatus(CancellationToken? cancellation = null)
         {
             var result = await _apiService.RequestJsonRpcAsync<SystemStatus, Dictionary<string, object>>("GetSystemStatus", "13.4", null, cancellation);
 

@@ -8,8 +8,8 @@ namespace LinkZoneSdk
 {
     public interface ISystem : IFluentInterface
     {
-        public Task<Result<Dictionary<string, object>>> GetSystemInfo(CancellationToken? cancellation = null);
-        public Task<Result<SystemStatus>> GetSystemStatus(CancellationToken? cancellation = null);
+        public Task<Result<Dictionary<string, object>>> GetInfo(CancellationToken? cancellation = null);
+        public Task<Result<SystemStatus>> GetStatus(CancellationToken? cancellation = null);
         public Task<Result<bool>> RebootDevice(CancellationToken? cancellation = null);
     }
 }
