@@ -1,9 +1,9 @@
 ﻿namespace LinkZoneSdk.Models.System
 {
-    public enum BatteryStatus
+    public enum ChargeState
     {
          Charging = 0,
          Full = 1,
-         Discharging = 2,
+         NoCharging = 2,
     }
 }
