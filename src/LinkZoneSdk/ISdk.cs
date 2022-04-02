@@ -5,5 +5,6 @@
         IUser User();
         IConnection Connection();
         ISystem System();
+        INetwork Network();
     }
 }

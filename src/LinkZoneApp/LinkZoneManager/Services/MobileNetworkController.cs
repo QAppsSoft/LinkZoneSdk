@@ -1,41 +1,119 @@
 ﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using LinkZoneManager.Infrastructure;
+using LinkZoneManager.Infrastructure.Extensions;
 using LinkZoneManager.Services.Interfaces;
 using LinkZoneSdk;
+using LinkZoneSdk.Enums;
 
-namespace LinkZoneManager.Services
+namespace LinkZoneManager.Services;
+
+public class MobileNetworkController : DeviceSettingBase, IMobileNetworkController
 {
-    public class MobileNetworkController : IMobileNetworkController
+    private readonly IBasicInfoReaderService _readerService;
+    private readonly ISdk _sdk;
+
+    public MobileNetworkController(ISdk sdk, IBasicInfoReaderService readerService)
     {
-        private readonly ISdk _sdk;
-        private readonly IBasicInfoReaderService _readerService;
+        _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
+        _readerService = readerService ?? throw new ArgumentNullException(nameof(readerService));
 
-        public MobileNetworkController(ISdk sdk, IBasicInfoReaderService readerService)
+        var listening = Observable.FromEvent<bool>(
+                eh => AutoUpdaterObserver += eh,
+                eh => AutoUpdaterObserver -= eh)
+            .StartWith(true);
+
+        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
+
+        var manualUpdate = Observable.FromEvent<Unit>(
+            eh => ManualUpdateObserver += eh,
+            eh => ManualUpdateObserver -= eh);
+
+        var updater = listening.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
+            .Switch()
+            .Merge(manualUpdate)
+            .Publish()
+            .RefCount();
+
+        var status = updater.Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation)))
+            .Switch()
+            .Select(value => value.ValueOrDefault)
+            .Where(value => value != default)
+            .Publish()
+            .RefCount();
+
+        MobilNetworkStatus = status.Select(value => value.ConnectionStatus switch
         {
-            _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
-            _readerService = readerService ?? throw new ArgumentNullException(nameof(readerService));
-        }
+            0 => false,
+            2 => true,
+            _ => false
+        }).DistinctUntilChanged();
 
-        public async Task SwitchState(bool connect, CancellationToken cancellation)
-        {
-            _readerService.StopListening();
+        MobilNetworkName = status.Select(value => value.NetworkName).DistinctUntilChanged();
 
-            if (connect)
-            {
-                await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
-            }
-            else
-            {
-                await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
-            }
+        MobilNetworkType = status.Select(value => value.NetworkType).DistinctUntilChanged();
 
-            _readerService.StartListening();
-        }
+        SignalLevel = status.Select(value => value.SignalStrength).DistinctUntilChanged();
 
-        public void SwitchNetworkType()
-        {
+        var networkMode = updater.Select(_ => Observable.FromAsync(cancellation => sdk.Network().GetSettings(cancellation)))
+            .Switch()
+            .Select(value => value.ValueOrDefault)
+            .Where(value => value != default)
+            .Publish()
+            .RefCount();
 
-        }
+        NetworkMode = networkMode.Select(value => value.NetworkMode).DistinctUntilChanged();
     }
+
+    public async Task SwitchNetworkMode(NetworkMode networkMode, CancellationToken cancellation)
+    {
+        AutoUpdaterObserver(false);
+
+        var status = await _sdk.System().GetStatus(cancellation);
+
+        var connected = status.Value.ConnectionStatus switch
+        {
+            0 => false,
+            2 => true,
+            _ => false
+        };
+
+        if (connected)
+        {
+            await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
+            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
+            await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+        }
+        else
+        {
+            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
+        }
+        
+        AutoUpdaterObserver(true);
+    }
+
+    public async Task SwitchState(bool connect, CancellationToken cancellation)
+    {
+        _readerService.AutoUpdate(false);
+
+        if (connect)
+        {
+            await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+        }
+        else
+        {
+            await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
+        }
+
+        _readerService.AutoUpdate(true);
+    }
+
+    public IObservable<bool> MobilNetworkStatus { get; }
+    public IObservable<string> MobilNetworkName { get; }
+    public IObservable<string> MobilNetworkType { get; }
+    public IObservable<int> SignalLevel { get; }
+    public IObservable<NetworkMode> NetworkMode { get; }
 }

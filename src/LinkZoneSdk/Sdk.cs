@@ -50,5 +50,10 @@ namespace LinkZoneSdk
         {
             return this;
         }
+
+        public INetwork Network()
+        {
+            return this;
+        }
     }
 }

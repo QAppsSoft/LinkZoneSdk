@@ -2,6 +2,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using LinkZoneManager.Services.Interfaces;
+using LinkZoneSdk.Enums;
 using LinkZoneSdk.Models.System;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -48,12 +49,24 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .ToPropertyEx(this, vm => vm.ConnectedUsers)
                 .DisposeWith(disposables);
 
-            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5));
+            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5)).Publish().RefCount();
 
             var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
                 .SkipUntil(waitToStart)
                 .Select(value =>
                     Observable.FromAsync(cancellation => networkController.SwitchState(value, cancellation)))
+                .Switch()
+                .Subscribe()
+                .DisposeWith(disposables);
+
+            var setNetworkMode = networkController.NetworkMode
+                .Subscribe(value => NetworkMode = value)
+                .DisposeWith(disposables);
+
+            var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
+                .SkipUntil(waitToStart)
+                .Select(value =>
+                    Observable.FromAsync(cancellation => networkController.SwitchNetworkMode(value, cancellation)))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
@@ -80,6 +93,9 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
 
     [ObservableAsProperty]
     public int ConnectedUsers { get; }
+
+    [Reactive]
+    public  NetworkMode NetworkMode { get; set; }
 
     public override int Order => 1;
 

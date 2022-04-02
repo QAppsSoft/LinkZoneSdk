@@ -23,7 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Infrastructure\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
