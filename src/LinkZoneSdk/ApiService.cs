@@ -3,6 +3,7 @@ using LinkZoneSdk.Errors;
 using LinkZoneSdk.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -69,8 +70,18 @@ namespace LinkZoneSdk
             var myContent = JsonSerializer.Serialize(postData);
             var buffer = Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
+            
+            var postResponseResult = await Result
+                .Try(async () => await client.PostAsync(url, byteContent, cancellation ?? CancellationToken.None),
+                    ExceptionCatchHandler())
+                .ConfigureAwait(false);
 
-            var postResponse = await client.PostAsync(url, byteContent, cancellation ?? CancellationToken.None).ConfigureAwait(false);
+            if (postResponseResult.IsFailed)
+            {
+                return postResponseResult.ToResult();
+            }
+
+            var postResponse = postResponseResult.Value;
 
             postResponse.EnsureSuccessStatusCode();
 
@@ -80,6 +91,29 @@ namespace LinkZoneSdk
 
             var dataReceived = await postResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
             return Result.Fail<ResultData<TResult, TError>>(new InvalidJsonDataReceivedError(dataReceived));
+        }
+
+        private static Func<Exception, IError> ExceptionCatchHandler()
+        {
+            return ex =>
+            {
+                switch (ex)
+                {
+                    case HttpRequestException httpRequestException:
+                        return new HttpRequestError().CausedBy(httpRequestException);
+                    case TaskCanceledException taskCanceledException:
+                        return new Error(ex.Message).CausedBy(taskCanceledException);
+                    case OperationCanceledException operationCanceledException:
+                        return new Error(ex.Message).CausedBy(operationCanceledException);
+                }
+
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+
+                throw ex;
+            };
         }
 
         private static PostData BuildPostData(string method, string id, Action<Dictionary<string, object>> parametersBuilder)
