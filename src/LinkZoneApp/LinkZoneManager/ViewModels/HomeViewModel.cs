@@ -21,19 +21,19 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
             Disposable.Create(HandleDeactivation)
                 .DisposeWith(disposables);
 
-            var setNetworkStatus = infoReader.MobilNetworkStatus
+            var setNetworkStatus = networkController.MobilNetworkStatus
                 .Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
 
-            var setNetworkName = infoReader.MobilNetworkName
+            var setNetworkName = networkController.MobilNetworkName
                 .ToPropertyEx(this, vm => vm.MobilNetworkName)
                 .DisposeWith(disposables);
 
-            var setNetworkType = infoReader.MobilNetworkType
+            var setNetworkType = networkController.MobilNetworkType
                 .ToPropertyEx(this, vm => vm.MobilNetworkType)
                 .DisposeWith(disposables);
 
-            var setSignalLevel = infoReader.SignalLevel
+            var setSignalLevel = networkController.SignalLevel
                 .ToPropertyEx(this, vm => vm.SignalStrength)
                 .DisposeWith(disposables);
 
