@@ -1,26 +1,32 @@
 ﻿using LinkZoneSdk;
 using LinkZoneSdk.Models.System;
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
+using LinkZoneManager.Infrastructure;
+using LinkZoneManager.Infrastructure.Extensions;
 using LinkZoneManager.Services.Interfaces;
 
 namespace LinkZoneManager.Services;
 
-internal class BasicInfoReaderService : IBasicInfoReaderService
+internal class BasicInfoReaderService : DeviceSettingBase, IBasicInfoReaderService
 {
-    private Action<bool> _listeningObserver = _ => { };
-
     public BasicInfoReaderService(ISdk sdk)
     {
         var listening = Observable.FromEvent<bool>(
-                eh => _listeningObserver += eh,
-                eh => _listeningObserver -= eh)
+                eh => AutoUpdaterObserver += eh,
+                eh => AutoUpdaterObserver -= eh)
             .StartWith(true);
 
-        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5));
+        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
 
-        var status = listening.Select(isListening => isListening ? timer : Observable.Empty<long>())
+        var manualUpdate = Observable.FromEvent<Unit>(
+            eh => ManualUpdateObserver += eh,
+            eh => ManualUpdateObserver -= eh);
+
+        var status = listening.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
             .Switch()
+            .Merge(manualUpdate)
             .Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation)))
             .Switch()
             .Select(value => value.ValueOrDefault)
@@ -52,18 +58,7 @@ internal class BasicInfoReaderService : IBasicInfoReaderService
     public IObservable<string> MobilNetworkName { get; }
     public IObservable<string> MobilNetworkType { get; }
     public IObservable<int> SignalLevel { get; }
-
     public IObservable<ChargeState> BatteryStatus { get; }
     public IObservable<int> BatteryCapacity { get; }
-
     public IObservable<int> ConnectedUsers { get; }
-    public void StopListening()
-    {
-        _listeningObserver(false);
-    }
-
-    public void StartListening()
-    {
-        _listeningObserver(true);
-    }
 }

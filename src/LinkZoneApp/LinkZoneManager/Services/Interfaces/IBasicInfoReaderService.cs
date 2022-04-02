@@ -1,9 +1,10 @@
 ﻿using System;
+using LinkZoneManager.Infrastructure;
 using LinkZoneSdk.Models.System;
 
 namespace LinkZoneManager.Services.Interfaces;
 
-public interface IBasicInfoReaderService
+public interface IBasicInfoReaderService : IDeviceSetting
 {
     IObservable<bool> MobilNetworkStatus { get; }
     IObservable<string> MobilNetworkName { get; }
@@ -12,7 +13,4 @@ public interface IBasicInfoReaderService
     IObservable<ChargeState> BatteryStatus { get; }
     IObservable<int> BatteryCapacity { get; }
     IObservable<int> ConnectedUsers { get; }
-
-    void StopListening();
-    void StartListening();
 }
