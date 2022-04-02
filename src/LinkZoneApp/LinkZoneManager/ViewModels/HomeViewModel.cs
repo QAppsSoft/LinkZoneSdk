@@ -11,7 +11,7 @@ namespace LinkZoneManager.ViewModels;
 
 public class HomeViewModel : PageViewModelBase, IActivatableViewModel
 {
-    public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkController networkController)
+    public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkService networkService)
     {
         Activator = new ViewModelActivator();
         this.WhenActivated(disposables =>
@@ -21,19 +21,19 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
             Disposable.Create(HandleDeactivation)
                 .DisposeWith(disposables);
 
-            var setNetworkStatus = networkController.MobilNetworkStatus
+            var setNetworkStatus = networkService.MobilNetworkStatus
                 .Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
 
-            var setNetworkName = networkController.MobilNetworkName
+            var setNetworkName = networkService.MobilNetworkName
                 .ToPropertyEx(this, vm => vm.MobilNetworkName)
                 .DisposeWith(disposables);
 
-            var setNetworkType = networkController.MobilNetworkType
+            var setNetworkType = networkService.MobilNetworkType
                 .ToPropertyEx(this, vm => vm.MobilNetworkType)
                 .DisposeWith(disposables);
 
-            var setSignalLevel = networkController.SignalLevel
+            var setSignalLevel = networkService.SignalLevel
                 .ToPropertyEx(this, vm => vm.SignalStrength)
                 .DisposeWith(disposables);
 
@@ -54,19 +54,19 @@ public class HomeViewModel : PageViewModelBase, IActivatableViewModel
             var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
                 .SkipUntil(waitToStart)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkController.SwitchState(value, cancellation)))
+                    Observable.FromAsync(cancellation => networkService.SwitchState(value, cancellation)))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
 
-            var setNetworkMode = networkController.NetworkMode
+            var setNetworkMode = networkService.NetworkMode
                 .Subscribe(value => NetworkMode = value)
                 .DisposeWith(disposables);
 
             var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
                 .SkipUntil(waitToStart)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkController.SwitchNetworkMode(value, cancellation)))
+                    Observable.FromAsync(cancellation => networkService.SwitchNetworkMode(value, cancellation)))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);

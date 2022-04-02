@@ -11,16 +11,14 @@ using LinkZoneSdk.Enums;
 
 namespace LinkZoneManager.Services;
 
-public class MobileNetworkController : DeviceSettingBase, IMobileNetworkController
+public class MobileNetworkService : DeviceSettingBase, IMobileNetworkService
 {
-    private readonly IBasicInfoReaderService _readerService;
     private readonly ISdk _sdk;
 
-    public MobileNetworkController(ISdk sdk, IBasicInfoReaderService readerService)
+    public MobileNetworkService(ISdk sdk)
     {
         _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
-        _readerService = readerService ?? throw new ArgumentNullException(nameof(readerService));
-
+        
         var listening = Observable.FromEvent<bool>(
                 eh => AutoUpdaterObserver += eh,
                 eh => AutoUpdaterObserver -= eh)
@@ -97,7 +95,7 @@ public class MobileNetworkController : DeviceSettingBase, IMobileNetworkControll
 
     public async Task SwitchState(bool connect, CancellationToken cancellation)
     {
-        _readerService.AutoUpdate(false);
+        AutoUpdaterObserver(false);
 
         if (connect)
         {
@@ -108,7 +106,7 @@ public class MobileNetworkController : DeviceSettingBase, IMobileNetworkControll
             await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
         }
 
-        _readerService.AutoUpdate(true);
+        AutoUpdaterObserver(true);
     }
 
     public IObservable<bool> MobilNetworkStatus { get; }

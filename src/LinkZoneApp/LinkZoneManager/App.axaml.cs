@@ -57,10 +57,14 @@ namespace LinkZoneManager
             
             services.AddTransient<MainWindowViewModel>();
             services.AddSingleton<IBasicInfoReaderService, BasicInfoReaderService>();
-            services.AddTransient<IMobileNetworkController, MobileNetworkController>();
-
+            
             services.Scan(scan =>
             {
+                scan.FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo<MobileNetworkService>())
+                    .AsSelfWithInterfaces()
+                    .WithSingletonLifetime();
+
                 scan.FromCallingAssembly()
                     .AddClasses(classes => classes.AssignableTo<IPageViewModel>())
                     .AsImplementedInterfaces()
