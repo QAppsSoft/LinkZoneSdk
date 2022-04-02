@@ -5,12 +5,12 @@ namespace LinkZoneSdk.Models
 {
     public class PostData
     {
-        public PostData(string method, string id, Dictionary<string, string>? parameters = null) :
+        public PostData(string method, string id, Dictionary<string, object>? parameters = null) :
             this("2.0", method, id, parameters)
         {
         }
 
-        public PostData(string jsonRpc, string method, string id, Dictionary<string, string>? parameters = null)
+        public PostData(string jsonRpc, string method, string id, Dictionary<string, object>? parameters = null)
         {
             JsonRpc = jsonRpc;
             Method = method;
@@ -25,7 +25,7 @@ namespace LinkZoneSdk.Models
         public string Method { get; }
 
         [JsonPropertyName("params")]
-        public Dictionary<string, string>? Params { get; }
+        public Dictionary<string, object>? Params { get; }
 
         [JsonPropertyName("id")]
         public string Id { get; }

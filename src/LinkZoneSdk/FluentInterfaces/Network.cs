@@ -33,8 +33,8 @@ namespace LinkZoneSdk
             var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>(
                 "SetNetworkSettings", "4.7", parameters =>
                 {
-                    parameters.Add("NetworkMode", networkMode.ToString("D"));
-                    parameters.Add("NetselectionMode", networkSelectionMode.ToString("D"));
+                    parameters.Add("NetworkMode", networkMode);
+                    parameters.Add("NetselectionMode", networkSelectionMode);
                 }, null, cancellation);
 
             if (result.IsFailed)

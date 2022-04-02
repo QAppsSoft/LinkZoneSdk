@@ -45,7 +45,7 @@ namespace LinkZoneSdk
         }
 
         public async Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method,
-            string id, Action<Dictionary<string, string>> parametersBuilder, IPAddress? endpoint = null,
+            string id, Action<Dictionary<string, object>> parametersBuilder, IPAddress? endpoint = null,
             CancellationToken? cancellation = null)
             where TResult : class
             where TError : class
@@ -82,9 +82,9 @@ namespace LinkZoneSdk
             return Result.Fail<ResultData<TResult, TError>>(new InvalidJsonDataReceivedError(dataReceived));
         }
 
-        private static PostData BuildPostData(string method, string id, Action<Dictionary<string, string>> parametersBuilder)
+        private static PostData BuildPostData(string method, string id, Action<Dictionary<string, object>> parametersBuilder)
         {
-            var pairs = new Dictionary<string, string>();
+            var pairs = new Dictionary<string, object>();
 
             parametersBuilder(pairs);
 

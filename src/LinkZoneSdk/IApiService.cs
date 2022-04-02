@@ -14,7 +14,7 @@ namespace LinkZoneSdk
             where TResult : class
             where TError : class;
 
-        Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id, Action<Dictionary<string, string>> parametersBuilder, IPAddress? endpoint = null, CancellationToken? cancellation = null)
+        Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id, Action<Dictionary<string, object>> parametersBuilder, IPAddress? endpoint = null, CancellationToken? cancellation = null)
             where TResult : class
             where TError : class;
     }
