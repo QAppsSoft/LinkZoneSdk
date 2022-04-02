@@ -83,8 +83,8 @@ public class MobileNetworkController : DeviceSettingBase, IMobileNetworkControll
 
         if (connected)
         {
-            await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation); // Needed to allow the setting to be fully applied
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
         }
         else
