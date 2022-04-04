@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:location="clr-namespace:LinkZoneSdk.Models.System;assembly=LinkZoneSdk"
              xmlns:viewModels="clr-namespace:LinkZoneManager.ViewModels"
+             xmlns:enums="clr-namespace:LinkZoneSdk.Enums;assembly=LinkZoneSdk"
              x:CompileBindings="True" x:DataType="viewModels:HomeViewModel"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="LinkZoneManager.Controls.BatteryLevelIconControl">
@@ -25,7 +25,7 @@
         <Interaction.Behaviors>
             <DataTriggerBehavior Binding="{Binding BatteryStatus}"
                                  ComparisonCondition="Equal"
-                                 Value="{x:Static location:ChargeState.Charging}">
+                                 Value="{x:Static enums:ChargeState.Charging}">
                 <ChangePropertyAction TargetObject="BatteryIconViewBox"
                                       PropertyName="Child">
                     <ChangePropertyAction.Value>
@@ -36,7 +36,7 @@
             </DataTriggerBehavior>
             <DataTriggerBehavior Binding="{Binding BatteryStatus}"
                                  ComparisonCondition="Equal"
-                                 Value="{x:Static location:ChargeState.Full}">
+                                 Value="{x:Static enums:ChargeState.Full}">
                 <ChangePropertyAction TargetObject="BatteryIconViewBox"
                                       PropertyName="Child">
                     <ChangePropertyAction.Value>
@@ -47,7 +47,7 @@
             </DataTriggerBehavior>
             <DataTriggerBehavior Binding="{Binding BatteryStatus}"
                                  ComparisonCondition="Equal"
-                                 Value="{x:Static location:ChargeState.NoCharging}">
+                                 Value="{x:Static enums:ChargeState.NoCharging}">
                 <ChangePropertyAction TargetObject="BatteryIconViewBox"
                                       PropertyName="Child">
                     <ChangePropertyAction.Value>

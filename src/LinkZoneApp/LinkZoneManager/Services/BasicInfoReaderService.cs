@@ -1,11 +1,11 @@
 ﻿using LinkZoneSdk;
-using LinkZoneSdk.Models.System;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using LinkZoneManager.Infrastructure;
 using LinkZoneManager.Infrastructure.Extensions;
 using LinkZoneManager.Services.Interfaces;
+using LinkZoneSdk.Enums;
 
 namespace LinkZoneManager.Services;
 

@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using LinkZoneSdk.Enums;
 using LinkZoneSdk.JsonConverters;
 
 namespace LinkZoneSdk.Models.System

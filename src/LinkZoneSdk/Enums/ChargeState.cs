@@ -1,4 +1,4 @@
-﻿namespace LinkZoneSdk.Models.System
+﻿namespace LinkZoneSdk.Enums
 {
     public enum ChargeState
     {

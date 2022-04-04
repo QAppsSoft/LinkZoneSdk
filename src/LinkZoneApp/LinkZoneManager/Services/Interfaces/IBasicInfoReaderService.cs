@@ -1,6 +1,6 @@
 ﻿using System;
 using LinkZoneManager.Infrastructure;
-using LinkZoneSdk.Models.System;
+using LinkZoneSdk.Enums;
 
 namespace LinkZoneManager.Services.Interfaces;
 
