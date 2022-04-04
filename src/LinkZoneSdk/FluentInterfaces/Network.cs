@@ -11,7 +11,9 @@ namespace LinkZoneSdk
     {
         public async Task<Result<NetworkSettings>> GetSettings(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<NetworkSettings, Dictionary<string, object>>("GetNetworkSettings", "4.6", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<NetworkSettings, Dictionary<string, object>>("GetNetworkSettings", "4.6", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -35,7 +37,7 @@ namespace LinkZoneSdk
                 {
                     parameters.Add("NetworkMode", networkMode);
                     parameters.Add("NetselectionMode", networkSelectionMode);
-                }, null, cancellation);
+                }, null, cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {

@@ -10,7 +10,9 @@ namespace LinkZoneSdk
     {
         public async Task<Result<Dictionary<string, object>>> GetInfo(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("GetSystemInfo", "13.1", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("GetSystemInfo", "13.1",
+                    null, cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -29,7 +31,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<SystemStatus>> GetStatus(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<SystemStatus, Dictionary<string, object>>("GetSystemStatus", "13.4", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<SystemStatus, Dictionary<string, object>>("GetSystemStatus", "13.4", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -49,7 +53,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<bool>> RebootDevice(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("SetDeviceReboot", "13.5", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("SetDeviceReboot", "13.5",
+                    null, cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {

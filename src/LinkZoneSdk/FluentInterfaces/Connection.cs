@@ -10,7 +10,9 @@ namespace LinkZoneSdk
     {
         public async Task<Result<ConnectionState>> GetConnectionState(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("GetConnectionState", "3.1", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("GetConnectionState", "3.1", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -29,7 +31,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<bool>> Connect(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("Connect", "3.2", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("Connect", "3.2", null, cancellation)
+                .ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -48,7 +52,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<bool>> Disconnect(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("DisConnect", "3.3", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<ConnectionState, Dictionary<string, object>>("DisConnect", "3.3", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {

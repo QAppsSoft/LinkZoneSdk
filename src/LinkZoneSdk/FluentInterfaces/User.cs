@@ -23,7 +23,7 @@ namespace LinkZoneSdk
                 {
                     parameters.Add("UserName", userName);
                     parameters.Add("Password", password);
-                }, null, cancellation);
+                }, null, cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -50,7 +50,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<bool>> Logout(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("Logout", "1.2", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("Logout", "1.2", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -62,7 +64,9 @@ namespace LinkZoneSdk
 
         public async Task<Result<LoginStateInfo>> GetLoginStatus(CancellationToken? cancellation = null)
         {
-            var result = await _apiService.RequestJsonRpcAsync<LoginStateInfo, Dictionary<string, object>>("GetLoginState", "1.3", null, cancellation);
+            var result = await _apiService
+                .RequestJsonRpcAsync<LoginStateInfo, Dictionary<string, object>>("GetLoginState", "1.3", null,
+                    cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -94,12 +98,13 @@ namespace LinkZoneSdk
                 return Result.Fail("New password can't be blank");
             }
 
-            var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>("ChangePassword", "1.4", parameters =>
-            {
-                parameters.Add("UserName", userName);
-                parameters.Add("CurrPassword", currentPassword);
-                parameters.Add("NewPassword", newPassword);
-            }, null, cancellation);
+            var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>(
+                "ChangePassword", "1.4", parameters =>
+                {
+                    parameters.Add("UserName", userName);
+                    parameters.Add("CurrPassword", currentPassword);
+                    parameters.Add("NewPassword", newPassword);
+                }, null, cancellation).ConfigureAwait(false);
 
             if (result.IsFailed)
             {
@@ -128,7 +133,7 @@ namespace LinkZoneSdk
         public async Task<Result> HeartBeat(CancellationToken? cancellation = null)
         {
             var result = await _apiService.RequestJsonRpcAsync<Dictionary<string, object>, Dictionary<string, object>>(
-                "HeartBeat", "1.5", null, cancellation);
+                "HeartBeat", "1.5", null, cancellation).ConfigureAwait(false);
 
             return result.ToResult();
         }

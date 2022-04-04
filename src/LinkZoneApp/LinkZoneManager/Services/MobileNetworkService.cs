@@ -56,16 +56,16 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
     {
         AutoUpdate(false);
         
-        var status = await _sdk.System().GetStatus(cancellation);
+        var status = await _sdk.System().GetStatus(cancellation).ConfigureAwait(false);
 
         var connected = IsConnected(status.Value.ConnectionStatus);
 
         if (connected)
         {
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation); // Needed to allow the setting to be fully applied
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation); // Needed to allow the reconnection to complete
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the reconnection to complete
         }
         else
         {

@@ -72,7 +72,7 @@ namespace LinkZoneSdk
             var byteContent = new ByteArrayContent(buffer);
             
             var postResponseResult = await Result
-                .Try(async () => await client.PostAsync(url, byteContent, cancellation ?? CancellationToken.None),
+                .Try(async () => await client.PostAsync(url, byteContent, cancellation ?? CancellationToken.None).ConfigureAwait(false),
                     ExceptionCatchHandler())
                 .ConfigureAwait(false);
 
