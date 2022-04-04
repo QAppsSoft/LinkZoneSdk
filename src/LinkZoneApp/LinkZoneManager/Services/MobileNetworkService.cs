@@ -15,11 +15,11 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 {
     private readonly ISdk _sdk;
 
-    public MobileNetworkService(ISdk sdk)
+    public MobileNetworkService(ISdk sdk, ISchedulerProvider schedulerProvider)
     {
         _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
         
-        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
+        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5), schedulerProvider.TaskPool).ToUnit();
 
         var updater = IsListeningObservable.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
             .Switch()
@@ -27,7 +27,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             .Publish()
             .RefCount();
 
-        var status = updater.Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation)))
+        var status = updater.Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation), schedulerProvider.TaskPool))
             .Switch()
             .Select(value => value.ValueOrDefault)
             .Where(value => value != default)
@@ -42,7 +42,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         SignalLevel = status.Select(value => value.SignalStrength);
 
-        var networkMode = updater.Select(_ => Observable.FromAsync(cancellation => sdk.Network().GetSettings(cancellation)))
+        var networkMode = updater.Select(_ => Observable.FromAsync(cancellation => sdk.Network().GetSettings(cancellation), schedulerProvider.TaskPool))
             .Switch()
             .Select(value => value.ValueOrDefault)
             .Where(value => value != default)

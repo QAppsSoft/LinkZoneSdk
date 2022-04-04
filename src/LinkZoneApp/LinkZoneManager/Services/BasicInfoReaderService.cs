@@ -11,14 +11,14 @@ namespace LinkZoneManager.Services;
 
 internal sealed class BasicInfoReaderService : DeviceSettingBase, IBasicInfoReaderService
 {
-    public BasicInfoReaderService(ISdk sdk)
+    public BasicInfoReaderService(ISdk sdk, ISchedulerProvider schedulerProvider)
     {
-        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
+        var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5), schedulerProvider.TaskPool).ToUnit();
 
         var status = IsListeningObservable.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
             .Switch()
             .Merge(ManualUpdateObservable)
-            .Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation)))
+            .Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation), schedulerProvider.TaskPool))
             .Switch()
             .Select(value => value.ValueOrDefault)
             .Where(value => value != default)

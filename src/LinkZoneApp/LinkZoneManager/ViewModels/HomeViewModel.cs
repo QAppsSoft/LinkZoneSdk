@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using LinkZoneManager.Infrastructure;
 using LinkZoneManager.Services.Interfaces;
 using LinkZoneSdk.Enums;
 using ReactiveUI;
@@ -10,7 +11,7 @@ namespace LinkZoneManager.ViewModels;
 
 public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
 {
-    public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkService networkService)
+    public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkService networkService, ISchedulerProvider schedulerProvider)
     {
         MobilNetworkName = "";
         MobilNetworkType = "";
@@ -28,33 +29,37 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .DisposeWith(disposables);
 
             var setNetworkName = networkService.MobilNetworkName
-                .ToPropertyEx(this, vm => vm.MobilNetworkName)
+                .ToPropertyEx(this, vm => vm.MobilNetworkName, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
             var setNetworkType = networkService.MobilNetworkType
-                .ToPropertyEx(this, vm => vm.MobilNetworkType)
+                .ToPropertyEx(this, vm => vm.MobilNetworkType, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
             var setSignalLevel = networkService.SignalLevel
-                .ToPropertyEx(this, vm => vm.SignalStrength)
+                .ToPropertyEx(this, vm => vm.SignalStrength, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
             var setBatteryStatus = infoReader.BatteryStatus
-                .ToPropertyEx(this, vm => vm.BatteryStatus)
+                .ToPropertyEx(this, vm => vm.BatteryStatus, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
             var setBatteryCapacity = infoReader.BatteryCapacity
-                .ToPropertyEx(this, vm => vm.BatteryCapacity)
+                .ToPropertyEx(this, vm => vm.BatteryCapacity, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
             var setConnectedUsers = infoReader.ConnectedUsers
-                .ToPropertyEx(this, vm => vm.ConnectedUsers)
+                .ToPropertyEx(this, vm => vm.ConnectedUsers, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
-            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5)).Publish().RefCount();
+            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5), schedulerProvider.TaskPool)
+                .Publish()
+                .RefCount();
 
             // Order is important. Subscribe first to get latest NetworkStatus value then set NetworkStatus property
-            var getNetworkStatus = networkService.MobilNetworkStatus.Publish().RefCount();
+            var getNetworkStatus = networkService.MobilNetworkStatus
+                .Publish()
+                .RefCount();
 
             var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
                 .SkipUntil(waitToStart)
@@ -62,16 +67,19 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkService.SwitchState(value, cancellation)))
+                    Observable.FromAsync(cancellation => networkService.SwitchState(value, cancellation), schedulerProvider.TaskPool))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
 
-            var setNetworkStatus = getNetworkStatus.Subscribe(value => MobilNetworkStatus = value)
+            var setNetworkStatus = getNetworkStatus.ObserveOn(schedulerProvider.Dispatcher)
+                .Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
 
             // Order is important. Subscribe first to get latest NetworkMode value then set NetworkMode property
-            var getNetworkMode = networkService.NetworkMode.Publish().RefCount();
+            var getNetworkMode = networkService.NetworkMode
+                .Publish()
+                .RefCount();
             
             var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
                 .SkipUntil(waitToStart)
@@ -79,12 +87,12 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkService.SwitchNetworkMode(value, cancellation)))
+                    Observable.FromAsync(cancellation => networkService.SwitchNetworkMode(value, cancellation), schedulerProvider.TaskPool))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
 
-            var setNetworkMode = getNetworkMode
+            var setNetworkMode = getNetworkMode.ObserveOn(schedulerProvider.Dispatcher)
                 .Subscribe(value => NetworkMode = value)
                 .DisposeWith(disposables);
         });
