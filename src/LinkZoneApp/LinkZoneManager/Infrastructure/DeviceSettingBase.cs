@@ -16,12 +16,16 @@ internal abstract class DeviceSettingBase : IDeviceSetting
     {
         IsListeningObservable = Observable.FromEvent<bool>(
                 eh => _autoUpdaterObserver += eh,
+#pragma warning disable CS8601
                 eh => _autoUpdaterObserver -= eh)
+#pragma warning restore CS8601
             .StartWith(true);
         
         ManualUpdateObservable = Observable.FromEvent<Unit>(
             eh => _manualUpdateObserver += eh,
+#pragma warning disable CS8601
             eh => _manualUpdateObserver -= eh);
+#pragma warning restore CS8601
     }
 
     public void AutoUpdate(bool enabled)

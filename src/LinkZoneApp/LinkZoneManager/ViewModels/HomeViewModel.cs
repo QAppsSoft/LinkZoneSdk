@@ -12,6 +12,13 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
 {
     public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkService networkService)
     {
+        MobilNetworkName = "";
+        MobilNetworkType = "";
+        SignalStrength = 0;
+        BatteryStatus = ChargeState.Charging;
+        BatteryCapacity = 0;
+        ConnectedUsers = 0;
+
         Activator = new ViewModelActivator();
         this.WhenActivated(disposables =>
         {
