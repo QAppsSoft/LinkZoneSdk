@@ -3,7 +3,7 @@ using LinkZoneSdk.Enums;
 
 namespace LinkZoneSdk.Models.Network
 {
-    public class NetworkSettings
+    public sealed class NetworkSettings
     {
         [JsonConstructor]
         public NetworkSettings(NetworkMode networkMode, int netselectionMode, int networkBand, int domesticRoam, int domesticRoamGuard)

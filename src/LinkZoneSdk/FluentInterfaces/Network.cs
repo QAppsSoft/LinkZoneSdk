@@ -7,7 +7,7 @@ using LinkZoneSdk.Models.Network;
 
 namespace LinkZoneSdk
 {
-    internal partial class Sdk : INetwork
+    internal sealed partial class Sdk : INetwork
     {
         public async Task<Result<NetworkSettings>> GetSettings(CancellationToken? cancellation = null)
         {

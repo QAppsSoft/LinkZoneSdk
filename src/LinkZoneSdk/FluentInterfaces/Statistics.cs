@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IStatistics
+    internal sealed partial class Sdk : IStatistics
     {
     }
 }

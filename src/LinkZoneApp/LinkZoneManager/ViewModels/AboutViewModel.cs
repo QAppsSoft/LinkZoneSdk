@@ -2,7 +2,7 @@
 
 namespace LinkZoneManager.ViewModels
 {
-    public class AboutViewModel : PageViewModelBase
+    public sealed class AboutViewModel : PageViewModelBase
     {
         public override int Order => 100;
         public override string Name => "About";

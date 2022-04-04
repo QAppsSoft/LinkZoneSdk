@@ -5,7 +5,7 @@ using Avalonia.Markup.Xaml;
 namespace LinkZoneManager.Infrastructure;
 
 // https://stackoverflow.com/a/3986342/8231560
-public class EnumToCollectionExtension : MarkupExtension
+public sealed class EnumToCollectionExtension : MarkupExtension
 {
     public Type EnumType { get; set; }
 

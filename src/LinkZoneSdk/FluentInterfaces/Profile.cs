@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IProfile
+    internal sealed partial class Sdk : IProfile
     {
     }
 }

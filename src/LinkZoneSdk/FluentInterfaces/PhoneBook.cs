@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IPhoneBook
+    internal sealed partial class Sdk : IPhoneBook
     {
     }
 }

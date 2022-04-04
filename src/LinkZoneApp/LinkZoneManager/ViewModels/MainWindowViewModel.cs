@@ -5,7 +5,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace LinkZoneManager.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public sealed class MainWindowViewModel : ViewModelBase
     {
         public MainWindowViewModel(IEnumerable<IPageViewModel> pages)
         {

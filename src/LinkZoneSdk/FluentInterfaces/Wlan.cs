@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IWlan
+    internal sealed partial class Sdk : IWlan
     {
     }
 }

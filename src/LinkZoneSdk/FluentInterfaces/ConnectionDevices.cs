@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IConnectionDevices
+    internal sealed partial class Sdk : IConnectionDevices
     {
     }
 }

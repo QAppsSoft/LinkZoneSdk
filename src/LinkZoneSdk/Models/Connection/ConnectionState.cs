@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace LinkZoneSdk.Models.Connection
 {
-    public class ConnectionState
+    public sealed class ConnectionState
     {
         [JsonConstructor]
         public ConnectionState(NetworkStatus connectionStatus,

@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IPower
+    internal sealed partial class Sdk : IPower
     {
     }
 }

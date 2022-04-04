@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LinkZoneSdk
 {
-    internal partial class Sdk : IConnection
+    internal sealed partial class Sdk : IConnection
     {
         public async Task<Result<ConnectionState>> GetConnectionState(CancellationToken? cancellation = null)
         {

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace LinkZoneSdk
 {
-    internal partial class Sdk : ISdk
+    internal sealed partial class Sdk : ISdk
     {
         private readonly IApiService _apiService;
 

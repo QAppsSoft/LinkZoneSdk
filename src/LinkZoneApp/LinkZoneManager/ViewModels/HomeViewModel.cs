@@ -9,7 +9,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace LinkZoneManager.ViewModels;
 
-public class HomeViewModel : PageViewModelBase, IActivatableViewModel
+public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
 {
     public HomeViewModel(IBasicInfoReaderService infoReader, IMobileNetworkService networkService)
     {

@@ -6,7 +6,7 @@ using LinkZoneSdk.Models.System;
 
 namespace LinkZoneSdk
 {
-    internal partial class Sdk : ISystem
+    internal sealed partial class Sdk : ISystem
     {
         public async Task<Result<Dictionary<string, object>>> GetInfo(CancellationToken? cancellation = null)
         {

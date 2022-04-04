@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LinkZoneSdk
 {
-    internal partial class Sdk : IUser
+    internal sealed partial class Sdk : IUser
     {
         public Task<Result<LoginToken>> Login(string password, CancellationToken? cancellation = null)
         {

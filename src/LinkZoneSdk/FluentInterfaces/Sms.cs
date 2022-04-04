@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : ISms
+    internal sealed partial class Sdk : ISms
     {
     }
 }

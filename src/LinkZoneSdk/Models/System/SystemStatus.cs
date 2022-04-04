@@ -3,7 +3,7 @@ using LinkZoneSdk.JsonConverters;
 
 namespace LinkZoneSdk.Models.System
 {
-    public class SystemStatus
+    public sealed class SystemStatus
     {
         [JsonConstructor]
         public SystemStatus(

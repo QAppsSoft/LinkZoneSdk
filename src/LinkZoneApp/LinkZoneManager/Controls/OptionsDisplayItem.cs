@@ -9,7 +9,7 @@ using IconElement = FluentAvalonia.UI.Controls.IconElement;
 
 namespace LinkZoneManager.Controls;
 
-public class OptionsDisplayItem : TemplatedControl
+public sealed class OptionsDisplayItem : TemplatedControl
 {
     public static readonly StyledProperty<string> HeaderProperty =
         AvaloniaProperty.Register<OptionsDisplayItem, string>(nameof(Header));

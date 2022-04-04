@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IPdpTimer
+    internal sealed partial class Sdk : IPdpTimer
     {
     }
 }

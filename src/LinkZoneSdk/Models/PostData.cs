@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace LinkZoneSdk.Models
 {
-    public class PostData
+    public sealed class PostData
     {
         public PostData(string method, string id, Dictionary<string, object>? parameters = null) :
             this("2.0", method, id, parameters)

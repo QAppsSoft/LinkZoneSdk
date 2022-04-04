@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : ISharing
+    internal sealed partial class Sdk : ISharing
     {
     }
 }

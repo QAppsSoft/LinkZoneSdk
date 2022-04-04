@@ -2,7 +2,7 @@
 
 namespace LinkZoneSdk.Models.User
 {
-    public class LoginToken
+    public sealed class LoginToken
     {
         [JsonConstructor]
         public LoginToken(int token)

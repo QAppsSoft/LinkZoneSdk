@@ -9,7 +9,7 @@ using LinkZoneManager.Services.Interfaces;
 
 namespace LinkZoneManager.Services;
 
-internal class BasicInfoReaderService : DeviceSettingBase, IBasicInfoReaderService
+internal sealed class BasicInfoReaderService : DeviceSettingBase, IBasicInfoReaderService
 {
     public BasicInfoReaderService(ISdk sdk)
     {

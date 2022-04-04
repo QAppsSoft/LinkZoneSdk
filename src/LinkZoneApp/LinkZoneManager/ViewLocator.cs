@@ -2,12 +2,11 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using JetBrains.Annotations;
-using LinkZoneManager.ViewModels;
 using LinkZoneManager.ViewModels.Interfaces;
 
 namespace LinkZoneManager
 {
-    public class ViewLocator : IDataTemplate
+    public sealed class ViewLocator : IDataTemplate
     {
         [CanBeNull]
         public IControl Build([CanBeNull] object data)

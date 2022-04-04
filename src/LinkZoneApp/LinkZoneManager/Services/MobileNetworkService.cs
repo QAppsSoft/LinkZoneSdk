@@ -11,7 +11,7 @@ using LinkZoneSdk.Enums;
 
 namespace LinkZoneManager.Services;
 
-public class MobileNetworkService : DeviceSettingBase, IMobileNetworkService
+internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkService
 {
     private readonly ISdk _sdk;
 

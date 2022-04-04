@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : ISim
+    internal sealed partial class Sdk : ISim
     {
     }
 }
