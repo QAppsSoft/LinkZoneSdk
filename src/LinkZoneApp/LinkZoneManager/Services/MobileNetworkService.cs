@@ -48,13 +48,13 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             0 => false,
             2 => true,
             _ => false
-        }).DistinctUntilChanged();
+        });
 
-        MobilNetworkName = status.Select(value => value.NetworkName).DistinctUntilChanged();
+        MobilNetworkName = status.Select(value => value.NetworkName);
 
-        MobilNetworkType = status.Select(value => value.NetworkType).DistinctUntilChanged();
+        MobilNetworkType = status.Select(value => value.NetworkType);
 
-        SignalLevel = status.Select(value => value.SignalStrength).DistinctUntilChanged();
+        SignalLevel = status.Select(value => value.SignalStrength);
 
         var networkMode = updater.Select(_ => Observable.FromAsync(cancellation => sdk.Network().GetSettings(cancellation)))
             .Switch()
@@ -63,7 +63,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             .Publish()
             .RefCount();
 
-        NetworkMode = networkMode.Select(value => value.NetworkMode).DistinctUntilChanged();
+        NetworkMode = networkMode.Select(value => value.NetworkMode);
     }
 
     public async Task SwitchNetworkMode(NetworkMode networkMode, CancellationToken cancellation)
@@ -84,6 +84,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
             await Task.Delay(TimeSpan.FromSeconds(5), cancellation); // Needed to allow the setting to be fully applied
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation); // Needed to allow the reconnection to complete
         }
         else
         {

@@ -34,11 +34,11 @@ internal sealed class BasicInfoReaderService : DeviceSettingBase, IBasicInfoRead
             .Publish()
             .RefCount();
 
-        BatteryStatus = status.Select(value => value.ChargeState).DistinctUntilChanged();
+        BatteryStatus = status.Select(value => value.ChargeState);
 
-        BatteryCapacity = status.Select(value => value.BatCap).DistinctUntilChanged();
+        BatteryCapacity = status.Select(value => value.BatCap);
 
-        ConnectedUsers = status.Select(value => value.TotalConnNum).DistinctUntilChanged();
+        ConnectedUsers = status.Select(value => value.TotalConnNum);
     }
     
     public IObservable<ChargeState> BatteryStatus { get; }

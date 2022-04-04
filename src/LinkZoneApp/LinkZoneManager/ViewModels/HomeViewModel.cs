@@ -3,7 +3,6 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using LinkZoneManager.Services.Interfaces;
 using LinkZoneSdk.Enums;
-using LinkZoneSdk.Models.System;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -19,10 +18,6 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
             HandleActivation();
 
             Disposable.Create(HandleDeactivation)
-                .DisposeWith(disposables);
-
-            var setNetworkStatus = networkService.MobilNetworkStatus
-                .Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
 
             var setNetworkName = networkService.MobilNetworkName
@@ -51,24 +46,39 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
 
             var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5)).Publish().RefCount();
 
+            // Order is important. Subscribe first to get latest NetworkStatus value then set NetworkStatus property
+            var getNetworkStatus = networkService.MobilNetworkStatus.Publish().RefCount();
+
             var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
                 .SkipUntil(waitToStart)
+                .WithLatestFrom(getNetworkStatus)
+                .Where(tuple => tuple.First != tuple.Second)
+                .Select(tuple => tuple.First)
                 .Select(value =>
                     Observable.FromAsync(cancellation => networkService.SwitchState(value, cancellation)))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
 
-            var setNetworkMode = networkService.NetworkMode
-                .Subscribe(value => NetworkMode = value)
+            var setNetworkStatus = getNetworkStatus.Subscribe(value => MobilNetworkStatus = value)
                 .DisposeWith(disposables);
 
+            // Order is important. Subscribe first to get latest NetworkMode value then set NetworkMode property
+            var getNetworkMode = networkService.NetworkMode.Publish().RefCount();
+            
             var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
                 .SkipUntil(waitToStart)
+                .WithLatestFrom(getNetworkMode)
+                .Where(tuple => tuple.First != tuple.Second)
+                .Select(tuple => tuple.First)
                 .Select(value =>
                     Observable.FromAsync(cancellation => networkService.SwitchNetworkMode(value, cancellation)))
                 .Switch()
                 .Subscribe()
+                .DisposeWith(disposables);
+
+            var setNetworkMode = getNetworkMode
+                .Subscribe(value => NetworkMode = value)
                 .DisposeWith(disposables);
         });
     }
