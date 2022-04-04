@@ -36,6 +36,17 @@
             </DataTriggerBehavior>
             <DataTriggerBehavior Binding="{Binding BatteryStatus}"
                                  ComparisonCondition="Equal"
+                                 Value="{x:Static enums:ChargeState.NoBattery}">
+                <ChangePropertyAction TargetObject="BatteryIconViewBox"
+                                      PropertyName="Child">
+                    <ChangePropertyAction.Value>
+                        <Path StrokeThickness="1" Fill="white"
+                              Data="{StaticResource NoBatteryIcon}" />
+                    </ChangePropertyAction.Value>
+                </ChangePropertyAction>
+            </DataTriggerBehavior>
+            <DataTriggerBehavior Binding="{Binding BatteryStatus}"
+                                 ComparisonCondition="Equal"
                                  Value="{x:Static enums:ChargeState.Full}">
                 <ChangePropertyAction TargetObject="BatteryIconViewBox"
                                       PropertyName="Child">
