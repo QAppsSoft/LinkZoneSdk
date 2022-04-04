@@ -13,20 +13,11 @@ internal sealed class BasicInfoReaderService : DeviceSettingBase, IBasicInfoRead
 {
     public BasicInfoReaderService(ISdk sdk)
     {
-        var listening = Observable.FromEvent<bool>(
-                eh => AutoUpdaterObserver += eh,
-                eh => AutoUpdaterObserver -= eh)
-            .StartWith(true);
-
         var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
 
-        var manualUpdate = Observable.FromEvent<Unit>(
-            eh => ManualUpdateObserver += eh,
-            eh => ManualUpdateObserver -= eh);
-
-        var status = listening.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
+        var status = IsListeningObservable.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
             .Switch()
-            .Merge(manualUpdate)
+            .Merge(ManualUpdateObservable)
             .Select(_ => Observable.FromAsync(cancellation => sdk.System().GetStatus(cancellation)))
             .Switch()
             .Select(value => value.ValueOrDefault)

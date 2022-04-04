@@ -19,20 +19,11 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
     {
         _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
         
-        var listening = Observable.FromEvent<bool>(
-                eh => AutoUpdaterObserver += eh,
-                eh => AutoUpdaterObserver -= eh)
-            .StartWith(true);
-
         var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5)).ToUnit();
 
-        var manualUpdate = Observable.FromEvent<Unit>(
-            eh => ManualUpdateObserver += eh,
-            eh => ManualUpdateObserver -= eh);
-
-        var updater = listening.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
+        var updater = IsListeningObservable.Select(isListening => isListening ? timer : Observable.Empty<Unit>())
             .Switch()
-            .Merge(manualUpdate)
+            .Merge(ManualUpdateObservable)
             .Publish()
             .RefCount();
 
@@ -68,8 +59,8 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
     public async Task SwitchNetworkMode(NetworkMode networkMode, CancellationToken cancellation)
     {
-        AutoUpdaterObserver(false);
-
+        AutoUpdate(false);
+        
         var status = await _sdk.System().GetStatus(cancellation);
 
         var connected = status.Value.ConnectionStatus switch
@@ -90,13 +81,13 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
         {
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
         }
-        
-        AutoUpdaterObserver(true);
+
+        AutoUpdate(true);
     }
 
     public async Task SwitchState(bool connect, CancellationToken cancellation)
     {
-        AutoUpdaterObserver(false);
+        AutoUpdate(false);
 
         if (connect)
         {
@@ -107,7 +98,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
         }
 
-        AutoUpdaterObserver(true);
+        AutoUpdate(true);
     }
 
     public IObservable<bool> MobilNetworkStatus { get; }

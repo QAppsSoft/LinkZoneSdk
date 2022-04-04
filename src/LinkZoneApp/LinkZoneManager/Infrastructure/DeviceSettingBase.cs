@@ -1,20 +1,36 @@
 ﻿using System;
 using System.Reactive;
+using System.Reactive.Linq;
 
 namespace LinkZoneManager.Infrastructure;
 
-public abstract class DeviceSettingBase : IDeviceSetting
+internal abstract class DeviceSettingBase : IDeviceSetting
 {
-    protected Action<bool> AutoUpdaterObserver = _ => { };
-    protected Action<Unit> ManualUpdateObserver = _ => { };
+    private Action<bool> _autoUpdaterObserver = _ => { };
+    private Action<Unit> _manualUpdateObserver = _ => { };
+
+    protected readonly IObservable<bool> IsListeningObservable;
+    protected readonly IObservable<Unit> ManualUpdateObservable;
+
+    protected DeviceSettingBase()
+    {
+        IsListeningObservable = Observable.FromEvent<bool>(
+                eh => _autoUpdaterObserver += eh,
+                eh => _autoUpdaterObserver -= eh)
+            .StartWith(true);
+        
+        ManualUpdateObservable = Observable.FromEvent<Unit>(
+            eh => _manualUpdateObserver += eh,
+            eh => _manualUpdateObserver -= eh);
+    }
 
     public void AutoUpdate(bool enabled)
     {
-        AutoUpdaterObserver(enabled);
+        _autoUpdaterObserver(enabled);
     }
 
     public void Update()
     {
-        ManualUpdateObserver(Unit.Default);
+        _manualUpdateObserver(Unit.Default);
     }
 }
