@@ -34,12 +34,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             .Publish()
             .RefCount();
 
-        MobilNetworkStatus = status.Select(value => value.ConnectionStatus switch
-        {
-            0 => false,
-            2 => true,
-            _ => false
-        });
+        MobilNetworkStatus = status.Select(value => IsConnected(value.ConnectionStatus));
 
         MobilNetworkName = status.Select(value => value.NetworkName);
 
@@ -63,12 +58,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
         
         var status = await _sdk.System().GetStatus(cancellation);
 
-        var connected = status.Value.ConnectionStatus switch
-        {
-            0 => false,
-            2 => true,
-            _ => false
-        };
+        var connected = IsConnected(status.Value.ConnectionStatus);
 
         if (connected)
         {
@@ -106,4 +96,14 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
     public IObservable<string> MobilNetworkType { get; }
     public IObservable<int> SignalLevel { get; }
     public IObservable<NetworkMode> NetworkMode { get; }
+
+    private static bool IsConnected(int connectionStatus)
+    {
+        return connectionStatus switch
+        {
+            0 => false,
+            2 => true,
+            _ => false
+        };
+    }
 }
