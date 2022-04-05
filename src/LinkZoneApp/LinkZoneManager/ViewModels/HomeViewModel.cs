@@ -19,7 +19,7 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
         BatteryStatus = ChargeState.Charging;
         BatteryCapacity = 0;
         ConnectedUsers = 0;
-
+        
         Activator = new ViewModelActivator();
         this.WhenActivated(disposables =>
         {
@@ -95,6 +95,11 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
             var setNetworkMode = getNetworkMode.ObserveOn(schedulerProvider.Dispatcher)
                 .Subscribe(value => NetworkMode = value)
                 .DisposeWith(disposables);
+
+            var canChangeSettings = networkService.CanChangeSettingsObservable
+                .ObserveOn(schedulerProvider.Dispatcher)
+                .Subscribe(value => CanChangeSettings = value)
+                .DisposeWith(disposables);
         });
     }
 
@@ -121,6 +126,9 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
 
     [Reactive]
     public  NetworkMode NetworkMode { get; set; }
+    
+    [Reactive] 
+    public bool CanChangeSettings { get; set; }
 
     public override int Order => 1;
 

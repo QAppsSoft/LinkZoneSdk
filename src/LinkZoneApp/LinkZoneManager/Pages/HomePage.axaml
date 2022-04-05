@@ -27,7 +27,8 @@
                 <StackPanel Spacing="16">
                     <StackPanel Orientation="Horizontal">
                         <ToggleSwitch OnContent="Connected" OffContent="Disconnected"
-                                      IsChecked="{Binding MobilNetworkStatus}" />
+                                      IsChecked="{Binding MobilNetworkStatus}"
+                                      IsEnabled="{Binding CanChangeSettings}"/>
                     </StackPanel>
                     <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
                             Margin="-20"
@@ -70,7 +71,8 @@
                             Height="1" />
                     <ComboBox HorizontalAlignment="Stretch"
                               Items="{infrastructure:EnumToCollectionExtension EnumType={x:Type enums:NetworkMode}}"
-                              SelectedItem="{Binding NetworkMode}" />
+                              SelectedItem="{Binding NetworkMode}" 
+                              IsEnabled="{Binding CanChangeSettings}"/>
                 </StackPanel>
             </Border>
         </StackPanel>

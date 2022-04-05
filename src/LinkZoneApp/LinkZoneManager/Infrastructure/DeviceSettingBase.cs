@@ -21,15 +21,21 @@ internal abstract class DeviceSettingBase : IDeviceSetting
                 eh => _autoUpdaterObserver -= eh)
 #pragma warning restore CS8601
             .DelayOnTrue(TimeSpan.FromSeconds(5), schedulerProvider.TaskPool)
-            .StartWith(true);
+            .StartWith(true)
+            .Replay(1)
+            .RefCount();
         
         ManualUpdateObservable = Observable.FromEvent<Unit>(
             eh => _manualUpdateObserver += eh,
 #pragma warning disable CS8601
             eh => _manualUpdateObserver -= eh);
 #pragma warning restore CS8601
+
+        CanChangeSettingsObservable = IsListeningObservable;
     }
-    
+
+    public IObservable<bool> CanChangeSettingsObservable { get; }
+
     public void AutoUpdate(bool enabled)
     {
         _autoUpdaterObserver(enabled);
