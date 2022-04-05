@@ -52,17 +52,12 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .ToPropertyEx(this, vm => vm.ConnectedUsers, scheduler: schedulerProvider.Dispatcher)
                 .DisposeWith(disposables);
 
-            var waitToStart = Observable.Timer(TimeSpan.FromSeconds(5), schedulerProvider.TaskPool)
-                .Publish()
-                .RefCount();
-
             // Order is important. Subscribe first to get latest NetworkStatus value then set NetworkStatus property
             var getNetworkStatus = networkService.MobilNetworkStatus
                 .Publish()
                 .RefCount();
 
             var switchNetworkStatus = this.WhenAnyValue(vm => vm.MobilNetworkStatus)
-                .SkipUntil(waitToStart)
                 .WithLatestFrom(getNetworkStatus)
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
@@ -82,7 +77,6 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .RefCount();
             
             var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
-                .SkipUntil(waitToStart)
                 .WithLatestFrom(getNetworkMode)
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
