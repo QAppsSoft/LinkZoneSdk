@@ -2,7 +2,7 @@
 {
     public interface IDeviceSetting
     {
-        public void AutoUpdate(bool enabled);
-        public void Update();
+        void AutoUpdate(bool enabled);
+        void Update();
     }
 }
