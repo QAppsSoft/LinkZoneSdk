@@ -11,7 +11,7 @@ namespace LinkZoneManager.Services;
 
 internal sealed class BasicInfoReaderService : DeviceSettingBase, IBasicInfoReaderService
 {
-    public BasicInfoReaderService(ISdk sdk, ISchedulerProvider schedulerProvider)
+    public BasicInfoReaderService(ISdk sdk, ISchedulerProvider schedulerProvider) : base(schedulerProvider)
     {
         var timer = Observable.Timer(TimeSpan.MinValue, TimeSpan.FromSeconds(5), schedulerProvider.TaskPool).ToUnit();
 

@@ -15,7 +15,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 {
     private readonly ISdk _sdk;
 
-    public MobileNetworkService(ISdk sdk, ISchedulerProvider schedulerProvider)
+    public MobileNetworkService(ISdk sdk, ISchedulerProvider schedulerProvider) : base(schedulerProvider)
     {
         _sdk = sdk ?? throw new ArgumentNullException(nameof(sdk));
         
@@ -65,12 +65,10 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
             await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the reconnection to complete
         }
         else
         {
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
 
         AutoUpdate(true);
@@ -83,12 +81,10 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
         if (connect)
         {
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
         else
         {
             await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
 
         AutoUpdate(true);
