@@ -70,6 +70,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
         else
         {
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
 
         AutoUpdate(true);
@@ -82,10 +83,12 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
         if (connect)
         {
             await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
         else
         {
             await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
         }
 
         AutoUpdate(true);
