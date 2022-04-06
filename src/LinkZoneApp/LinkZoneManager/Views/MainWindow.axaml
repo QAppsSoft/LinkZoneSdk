@@ -14,20 +14,40 @@
             <Setter Property="OpenPaneLength" Value="150" />
         </Style>
     </Window.Styles>
-    <controls:NavigationView
-        MenuItems="{Binding Pages}"
-        Content="{Binding CurrentPage}"
-        SelectedItem="{Binding CurrentPage}"
-        AlwaysShowHeader="False"
-        Classes="SampleAppNav"
-        PaneDisplayMode="Left"
-        IsPaneOpen="False"
-        Name="NavView"
-        IsSettingsVisible="False">
-        <controls:NavigationView.MenuItemTemplate>
-            <DataTemplate DataType="{x:Type vmi:IPageViewModel}">
-                <controls:NavigationViewItem Icon="{Binding Icon}" Content="{Binding Name}" />
-            </DataTemplate>
-        </controls:NavigationView.MenuItemTemplate>
-    </controls:NavigationView>
+    <DockPanel>
+        <Grid Background="Transparent" 
+              Height="44"
+              Name="TitleBarHost"
+              ColumnDefinitions="Auto,*"
+              DockPanel.Dock="Top">
+            <Image Margin="12 4"
+                   IsHitTestVisible="False"
+                   Source="/Assets/avalonia-logo.ico"
+                   Width="18" Height="18"
+                   Name="WindowIcon" />
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                       FontSize="12"
+                       IsHitTestVisible="False"
+                       VerticalAlignment="Center"
+                       Grid.Column="1"/>
+        </Grid>
+
+        <controls:NavigationView
+            MenuItems="{Binding Pages}"
+            Content="{Binding CurrentPage}"
+            SelectedItem="{Binding CurrentPage}"
+            AlwaysShowHeader="False"
+            Classes="SampleAppNav"
+            PaneDisplayMode="Left"
+            IsPaneOpen="False"
+            Name="NavView"
+            IsSettingsVisible="False">
+            <controls:NavigationView.MenuItemTemplate>
+                <DataTemplate DataType="{x:Type vmi:IPageViewModel}">
+                    <controls:NavigationViewItem Icon="{Binding Icon}" Content="{Binding Name}" />
+                </DataTemplate>
+            </controls:NavigationView.MenuItemTemplate>
+        </controls:NavigationView>
+
+    </DockPanel>
 </Window>
