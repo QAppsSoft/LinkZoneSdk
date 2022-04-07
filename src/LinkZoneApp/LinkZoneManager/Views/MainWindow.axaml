@@ -6,7 +6,7 @@
         xmlns:vmi="clr-namespace:LinkZoneManager.ViewModels.Interfaces"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="LinkZoneManager.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/wifi.png"
         Title="LinkZoneManager">
     <Window.Styles>
         <Style Selector="controls|NavigationView.SampleAppNav">
@@ -22,8 +22,8 @@
               DockPanel.Dock="Top">
             <Image Margin="12 4"
                    IsHitTestVisible="False"
-                   Source="/Assets/avalonia-logo.ico"
-                   Width="18" Height="18"
+                   Source="/Assets/wifi.png"
+                   Width="24" Height="24"
                    Name="WindowIcon" />
             <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                        FontSize="12"
