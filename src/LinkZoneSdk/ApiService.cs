@@ -55,10 +55,10 @@ namespace LinkZoneSdk
 
             var postData = BuildPostData(method, id, parametersBuilder);
 
-            return await OtherExecuteApiPostCall<TResult, TError>(method, client, postData, endpoint, cancellation).ConfigureAwait(false);
+            return await ExecuteApiPostCall<TResult, TError>(method, client, postData, endpoint, cancellation).ConfigureAwait(false);
         }
 
-        private static async Task<Result<ResultData<TResult, TError>>> OtherExecuteApiPostCall<TResult, TError>(string method, HttpClient client,
+        private static async Task<Result<ResultData<TResult, TError>>> ExecuteApiPostCall<TResult, TError>(string method, HttpClient client,
             PostData postData, IPAddress? address, CancellationToken? cancellation)
             where TError : class
             where TResult : class
