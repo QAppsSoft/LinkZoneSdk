@@ -7,9 +7,9 @@ namespace LinkZoneManager.Services.Interfaces;
 
 public interface IMobileNetworkManager
 {
-    Task SwitchState(bool connect, CancellationToken cancellation);
-    Task SwitchState(bool connect, TimeSpan timeout, CancellationToken cancellation);
+    Task SwitchStateAsync(bool connect, CancellationToken cancellation);
+    Task SwitchStateAsync(bool connect, TimeSpan timeout, CancellationToken cancellation);
 
-    Task SwitchNetworkMode(NetworkMode networkMode, CancellationToken cancellation);
-    Task SwitchNetworkMode(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation);
+    Task SwitchNetworkModeAsync(NetworkMode networkMode, CancellationToken cancellation);
+    Task SwitchNetworkModeAsync(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation);
 }

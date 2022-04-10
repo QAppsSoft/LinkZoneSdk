@@ -51,12 +51,12 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         NetworkMode = networkMode.Select(value => value.NetworkMode);
     }
-    public Task SwitchNetworkMode(NetworkMode networkMode,  CancellationToken cancellation)
+    public Task SwitchNetworkModeAsync(NetworkMode networkMode,  CancellationToken cancellation)
     {
-        return SwitchNetworkMode(networkMode, TimeSpan.MaxValue, cancellation);
+        return SwitchNetworkModeAsync(networkMode, TimeSpan.MaxValue, cancellation);
     }
 
-    public async Task SwitchNetworkMode(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation)
+    public async Task SwitchNetworkModeAsync(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation)
     {
         using var internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
 
@@ -81,12 +81,12 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         AutoUpdate(true);
     }
-    public Task SwitchState(bool connect, CancellationToken cancellation)
+    public Task SwitchStateAsync(bool connect, CancellationToken cancellation)
     {
-        return SwitchState(connect, TimeSpan.MaxValue, cancellation);
+        return SwitchStateAsync(connect, TimeSpan.MaxValue, cancellation);
     }
 
-    public async Task SwitchState(bool connect, TimeSpan timeout, CancellationToken cancellation)
+    public async Task SwitchStateAsync(bool connect, TimeSpan timeout, CancellationToken cancellation)
     {
         using var internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
         

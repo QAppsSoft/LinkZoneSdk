@@ -62,7 +62,7 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkService.SwitchState(value, cancellation), schedulerProvider.TaskPool))
+                    Observable.FromAsync(cancellation => networkService.SwitchStateAsync(value, cancellation), schedulerProvider.TaskPool))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
@@ -81,7 +81,7 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
                 .Select(value =>
-                    Observable.FromAsync(cancellation => networkService.SwitchNetworkMode(value, cancellation), schedulerProvider.TaskPool))
+                    Observable.FromAsync(cancellation => networkService.SwitchNetworkModeAsync(value, cancellation), schedulerProvider.TaskPool))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);
