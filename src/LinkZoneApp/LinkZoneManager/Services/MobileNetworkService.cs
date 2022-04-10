@@ -51,42 +51,58 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         NetworkMode = networkMode.Select(value => value.NetworkMode);
     }
-
-    public async Task SwitchNetworkMode(NetworkMode networkMode, CancellationToken cancellation)
+    public Task SwitchNetworkMode(NetworkMode networkMode,  CancellationToken cancellation)
     {
+        return SwitchNetworkMode(networkMode, TimeSpan.MaxValue, cancellation);
+    }
+
+    public async Task SwitchNetworkMode(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation)
+    {
+        using var internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+
+        internalTokenSource.CancelAfter(timeout);
+
         AutoUpdate(false);
         
-        var status = await _sdk.System().GetStatus(cancellation).ConfigureAwait(false);
+        var status = await _sdk.System().GetStatus(internalTokenSource.Token).ConfigureAwait(false);
 
         var connected = IsConnected(status.Value.ConnectionStatus);
 
         if (connected)
         {
-            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellation).ConfigureAwait(false); // Needed to allow the setting to be fully applied
-            await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, internalTokenSource.Token).ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromSeconds(5), internalTokenSource.Token).ConfigureAwait(false); // Needed to allow the setting to be fully applied
+            await _sdk.Connection().Connect(internalTokenSource.Token).ConfigureAwait(false);
         }
         else
         {
-            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, cancellation).ConfigureAwait(false);
+            await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, internalTokenSource.Token).ConfigureAwait(false);
         }
 
         AutoUpdate(true);
     }
-
-    public async Task SwitchState(bool connect, CancellationToken cancellation)
+    public Task SwitchState(bool connect, CancellationToken cancellation)
     {
+        return SwitchState(connect, TimeSpan.MaxValue, cancellation);
+    }
+
+    public async Task SwitchState(bool connect, TimeSpan timeout, CancellationToken cancellation)
+    {
+        using var internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+        
+        internalTokenSource.CancelAfter(timeout);
+        
         AutoUpdate(false);
 
         if (connect)
         {
-            await _sdk.Connection().Connect(cancellation).ConfigureAwait(false);
+            await _sdk.Connection().Connect(internalTokenSource.Token).ConfigureAwait(false);
         }
         else
         {
-            await _sdk.Connection().Disconnect(cancellation).ConfigureAwait(false);
+            await _sdk.Connection().Disconnect(internalTokenSource.Token).ConfigureAwait(false);
         }
-
+        
         AutoUpdate(true);
     }
 
