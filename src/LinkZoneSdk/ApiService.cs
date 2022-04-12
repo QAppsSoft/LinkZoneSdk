@@ -47,7 +47,7 @@ namespace LinkZoneSdk
             return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { }, apiSettings, cancellation);
         }
 
-        public async Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method,
+        public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method,
             string id, Action<Dictionary<string, object>> parametersBuilder, ApiSettings? apiSettings = null,
             CancellationToken? cancellation = null)
             where TResult : class
@@ -57,7 +57,7 @@ namespace LinkZoneSdk
 
             var postData = BuildPostData(method, id, parametersBuilder);
 
-            return await ExecuteApiPostCall<TResult, TError>(method, client, postData, apiSettings, cancellation).ConfigureAwait(false);
+            return ExecuteApiPostCall<TResult, TError>(method, client, postData, apiSettings, cancellation);
         }
 
         private static async Task<Result<ResultData<TResult, TError>>> ExecuteApiPostCall<TResult, TError>(string method, HttpClient client,
@@ -82,7 +82,7 @@ namespace LinkZoneSdk
             var byteContent = new ByteArrayContent(buffer);
             
             var postResponseResult = await Result
-                .Try(async () => await client.PostAsync(url, byteContent, tokenSourceWithTimeout.Token).ConfigureAwait(false),
+                .Try(() => client.PostAsync(url, byteContent, tokenSourceWithTimeout.Token),
                     ExceptionCatchHandler())
                 .ConfigureAwait(false);
 
