@@ -75,13 +75,21 @@ public sealed class HomeViewModel : PageViewModelBase, IActivatableViewModel
             var getNetworkMode = networkService.NetworkMode
                 .Publish()
                 .RefCount();
-            
+
             var changeNetworkMode = this.WhenAnyValue(vm => vm.NetworkMode)
                 .WithLatestFrom(getNetworkMode)
                 .Where(tuple => tuple.First != tuple.Second)
                 .Select(tuple => tuple.First)
-                .Select(value =>
-                    Observable.FromAsync(cancellation => networkService.SwitchNetworkModeAsync(value, TimeSpan.FromSeconds(20),  cancellation), schedulerProvider.TaskPool))
+                .WithLatestFrom(networkService.MobilNetworkStatus)
+                .Select(tuple => (NetworkMode: tuple.First, IsConnected: tuple.Second))
+                .Select(tuple =>
+                    Observable.FromAsync(
+                        cancellation => networkService.SwitchNetworkModeAsync(
+                            tuple.NetworkMode,
+                            tuple.IsConnected,
+                            TimeSpan.FromSeconds(20),
+                            cancellation),
+                        schedulerProvider.TaskPool))
                 .Switch()
                 .Subscribe()
                 .DisposeWith(disposables);

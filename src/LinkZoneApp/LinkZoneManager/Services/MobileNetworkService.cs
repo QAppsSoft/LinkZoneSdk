@@ -51,12 +51,14 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         NetworkMode = networkMode.Select(value => value.NetworkMode);
     }
-    public Task SwitchNetworkModeAsync(NetworkMode networkMode,  CancellationToken cancellation)
+    
+    public Task SwitchNetworkModeAsync(NetworkMode networkMode, bool isConnected, CancellationToken cancellation)
     {
-        return SwitchNetworkModeAsync(networkMode, TimeSpan.MaxValue, cancellation);
+        return SwitchNetworkModeAsync(networkMode, isConnected, TimeSpan.MaxValue, cancellation);
     }
 
-    public async Task SwitchNetworkModeAsync(NetworkMode networkMode, TimeSpan timeout, CancellationToken cancellation)
+    public async Task SwitchNetworkModeAsync(NetworkMode networkMode, bool isConnected, TimeSpan timeout,
+        CancellationToken cancellation)
     {
         using var internalTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
 
@@ -64,11 +66,7 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
 
         AutoUpdate(false);
         
-        var status = await _sdk.System().GetStatus(internalTokenSource.Token).ConfigureAwait(false);
-
-        var connected = IsConnected(status.Value.ConnectionStatus);
-
-        if (connected)
+        if (isConnected)
         {
             await _sdk.Network().SetSettings(networkMode, NetworkSelection.Auto, internalTokenSource.Token).ConfigureAwait(false);
             await Task.Delay(TimeSpan.FromSeconds(5), internalTokenSource.Token).ConfigureAwait(false); // Needed to allow the setting to be fully applied
