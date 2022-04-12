@@ -6,17 +6,28 @@ namespace LinkZoneSdk
     internal sealed partial class Sdk : ISdk
     {
         private readonly IApiService _apiService;
+        private static ApiSettings _apiSettings;
 
-        internal static IPAddress DefaultAddress { get; private set; } = IPAddress.Parse("192.168.1.1");
+        internal static IPAddress Address => _apiSettings.Address;
+
+        static Sdk()
+        {
+            _apiSettings = ApiSettings.Default();
+        }
 
         public Sdk(IApiService apiService)
         {
             _apiService = apiService;
         }
 
-        public static void Configure(IPAddress address)
+        public static void ToDefaults()
         {
-            DefaultAddress = address;
+            _apiSettings = ApiSettings.Default();
+        }
+        
+        public static void Configure(ApiSettings apiSettings)
+        {
+            _apiSettings = apiSettings;
         }
 
         private static bool RequestJsonRpcIsOk<TResult, TError>(ResultData<TResult, TError> resultData)

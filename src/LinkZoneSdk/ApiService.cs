@@ -22,9 +22,11 @@ namespace LinkZoneSdk
 
         private static readonly Func<IPAddress, string> BuildUrl = address => $"http://{address}";
 
-        public static readonly string ServicePath = BuildUrl(Sdk.DefaultAddress);
-        private static readonly string FullApiAddress = ServicePath + ApiCall;
+        private static IPAddress IpAddress => Sdk.Address;
 
+        public static readonly string ServicePath = BuildUrl(IpAddress);
+        private static readonly string FullApiAddress = ServicePath + ApiCall;
+        
         public ApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
@@ -39,14 +41,14 @@ namespace LinkZoneSdk
         }
 
         public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id, 
-            IPAddress? endpoint = null, CancellationToken? cancellation = null)
+            ApiSettings? apiSettings = null, CancellationToken? cancellation = null)
             where TResult : class where TError : class
         {
-            return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { }, endpoint, cancellation);
+            return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { }, apiSettings, cancellation);
         }
 
         public async Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method,
-            string id, Action<Dictionary<string, object>> parametersBuilder, IPAddress? endpoint = null,
+            string id, Action<Dictionary<string, object>> parametersBuilder, ApiSettings? apiSettings = null,
             CancellationToken? cancellation = null)
             where TResult : class
             where TError : class
@@ -55,24 +57,32 @@ namespace LinkZoneSdk
 
             var postData = BuildPostData(method, id, parametersBuilder);
 
-            return await ExecuteApiPostCall<TResult, TError>(method, client, postData, endpoint, cancellation).ConfigureAwait(false);
+            return await ExecuteApiPostCall<TResult, TError>(method, client, postData, apiSettings, cancellation).ConfigureAwait(false);
         }
 
         private static async Task<Result<ResultData<TResult, TError>>> ExecuteApiPostCall<TResult, TError>(string method, HttpClient client,
-            PostData postData, IPAddress? address, CancellationToken? cancellation)
+            PostData postData, ApiSettings? apiSettings, CancellationToken? cancellation)
             where TError : class
             where TResult : class
         {
-            var url = address == null
-                ? FullApiAddress + method
-                : BuildUrl(address) + ApiCall + method;
+            var timeout = apiSettings?.Timeout ?? ApiSettings.Default().Timeout;
+
+            using var tokenSourceWithTimeout = cancellation.HasValue
+                ? CancellationTokenSource.CreateLinkedTokenSource(cancellation.Value)
+                : new CancellationTokenSource();
+
+            tokenSourceWithTimeout.CancelAfter(timeout);
+
+            var url = apiSettings.HasValue
+                ? BuildUrl(apiSettings.Value.Address) + ApiCall + method
+                : FullApiAddress + method;
 
             var myContent = JsonSerializer.Serialize(postData);
             var buffer = Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             
             var postResponseResult = await Result
-                .Try(async () => await client.PostAsync(url, byteContent, cancellation ?? CancellationToken.None).ConfigureAwait(false),
+                .Try(async () => await client.PostAsync(url, byteContent, tokenSourceWithTimeout.Token).ConfigureAwait(false),
                     ExceptionCatchHandler())
                 .ConfigureAwait(false);
 
