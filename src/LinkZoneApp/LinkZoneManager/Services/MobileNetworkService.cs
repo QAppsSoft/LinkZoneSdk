@@ -112,13 +112,14 @@ internal sealed class MobileNetworkService : DeviceSettingBase, IMobileNetworkSe
     public IObservable<int> SignalLevel { get; }
     public IObservable<NetworkMode> NetworkMode { get; }
 
-    private static bool IsConnected(int connectionStatus)
+    private static bool IsConnected(ConnectionStatus connectionStatus)
     {
         return connectionStatus switch
         {
-            0 => false,
-            2 => true,
-            _ => false
+            ConnectionStatus.Disconnected => false,
+            ConnectionStatus.Connected => true,
+            ConnectionStatus.Connecting => false,
+            _ => throw new ArgumentOutOfRangeException(nameof(connectionStatus), connectionStatus, null)
         };
     }
 }

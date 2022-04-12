@@ -12,7 +12,7 @@ namespace LinkZoneSdk.Models.System
             int batCap,
             int batLevel,
             int smsState,
-            int connectionStatus,
+            ConnectionStatus connectionStatus,
             int conprofileerror,
             int clearCode,
             int mpdpRejectCount,
@@ -57,7 +57,7 @@ namespace LinkZoneSdk.Models.System
         public int SmsState { get; }
 
         [JsonPropertyName("ConnectionStatus")]
-        public int ConnectionStatus { get; }
+        public ConnectionStatus ConnectionStatus { get; }
 
         [JsonPropertyName("Conprofileerror")]
         public int Conprofileerror { get; }
