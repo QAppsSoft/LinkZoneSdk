@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IFirewall
+    internal sealed partial class Sdk : IFirewall
     {
     }
 }

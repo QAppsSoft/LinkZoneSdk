@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : IUssd
+    internal sealed partial class Sdk : IUssd
     {
     }
 }

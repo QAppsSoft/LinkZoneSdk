@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace LinkZoneSdk.JsonConverters
 {
-    public class NetworkTypeJsonConverter : JsonConverter<string>
+    public sealed class NetworkTypeJsonConverter : JsonConverter<string>
     {
         public override string Read(
             ref Utf8JsonReader reader,

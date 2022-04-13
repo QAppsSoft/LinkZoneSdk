@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    class Tr069 : ITr069
+    internal sealed partial class Sdk : ITr069
     {
     }
 }

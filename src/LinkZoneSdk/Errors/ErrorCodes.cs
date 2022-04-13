@@ -3,6 +3,7 @@
     public static class ErrorCodes
     {
         public const string InvalidJsonDataReceived = "101";
+        public const string HttpRequestException = "102";
 
         public const string WrongUserOrPassword = "010101";
         public const string LoginFailed = "010102";

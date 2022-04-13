@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace LinkZoneSdk.Models.User
 {
-    public class LoginStateInfo
+    public sealed class LoginStateInfo
     {
         [JsonConstructor]
         public LoginStateInfo(LoginState state, int loginRemainingTimes, int lockedRemainingTime

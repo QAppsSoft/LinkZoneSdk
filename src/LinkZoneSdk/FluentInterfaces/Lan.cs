@@ -1,6 +1,6 @@
 ﻿namespace LinkZoneSdk
 {
-    internal partial class Sdk : ILan
+    internal sealed partial class Sdk : ILan
     {
     }
 }

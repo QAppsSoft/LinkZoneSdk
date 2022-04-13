@@ -1,0 +1,53 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+        xmlns:vmi="clr-namespace:LinkZoneManager.ViewModels.Interfaces"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="LinkZoneManager.Views.MainWindow"
+        Icon="/Assets/wifi.png"
+        Title="LinkZoneManager">
+    <Window.Styles>
+        <Style Selector="controls|NavigationView.SampleAppNav">
+            <Setter Property="IsPaneToggleButtonVisible" Value="True" />
+            <Setter Property="OpenPaneLength" Value="150" />
+        </Style>
+    </Window.Styles>
+    <DockPanel>
+        <Grid Background="Transparent" 
+              Height="44"
+              Name="TitleBarHost"
+              ColumnDefinitions="Auto,*"
+              DockPanel.Dock="Top">
+            <Image Margin="12 4"
+                   IsHitTestVisible="False"
+                   Source="/Assets/wifi.png"
+                   Width="24" Height="24"
+                   Name="WindowIcon" />
+            <TextBlock Text="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                       FontSize="12"
+                       IsHitTestVisible="False"
+                       VerticalAlignment="Center"
+                       Grid.Column="1"/>
+        </Grid>
+
+        <controls:NavigationView
+            MenuItems="{Binding Pages}"
+            Content="{Binding CurrentPage}"
+            SelectedItem="{Binding CurrentPage}"
+            AlwaysShowHeader="False"
+            Classes="SampleAppNav"
+            PaneDisplayMode="Left"
+            IsPaneOpen="False"
+            Name="NavView"
+            IsSettingsVisible="False">
+            <controls:NavigationView.MenuItemTemplate>
+                <DataTemplate DataType="{x:Type vmi:IPageViewModel}">
+                    <controls:NavigationViewItem Icon="{Binding Icon}" Content="{Binding Name}" />
+                </DataTemplate>
+            </controls:NavigationView.MenuItemTemplate>
+        </controls:NavigationView>
+
+    </DockPanel>
+</Window>

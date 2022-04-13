@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace LinkZoneSdk.Models.Connection
 {
-    public class ConnectionState
+    public sealed class ConnectionState
     {
         [JsonConstructor]
-        public ConnectionState(NetworkStatus connectionStatus,
+        public ConnectionState(NetworkStatus networkStatus,
             int conprofileerror,
             int clearCode,
             int mpdpRejectCount,
@@ -21,7 +21,7 @@ namespace LinkZoneSdk.Models.Connection
             int dlBytes
         )
         {
-            ConnectionStatus = connectionStatus;
+            NetworkStatus = networkStatus;
             Conprofileerror = conprofileerror;
             ClearCode = clearCode;
             MPdpRejectCount = mpdpRejectCount;
@@ -37,7 +37,7 @@ namespace LinkZoneSdk.Models.Connection
         }
 
         [JsonPropertyName("ConnectionStatus")]
-        public NetworkStatus ConnectionStatus { get; }
+        public NetworkStatus NetworkStatus { get; }
 
         [JsonPropertyName("Conprofileerror")]
         public int Conprofileerror { get; }

@@ -3,16 +3,18 @@ using LinkZoneSdk.Errors;
 using LinkZoneSdk.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LinkZoneSdk
 {
-    public sealed class ApiService : IApiService
+    internal sealed class ApiService : IApiService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
@@ -20,22 +22,34 @@ namespace LinkZoneSdk
 
         private static readonly Func<IPAddress, string> BuildUrl = address => $"http://{address}";
 
-        public static readonly string ServicePath = BuildUrl(Sdk.DefaultAddress);
-        private static readonly string FullApiAddress = ServicePath + ApiCall;
+        private static IPAddress IpAddress => Sdk.Address;
 
+        public static readonly string ServicePath = BuildUrl(IpAddress);
+        private static readonly string FullApiAddress = ServicePath + ApiCall;
+        
         public ApiService(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
-        public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id)
+        public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id,
+            CancellationToken? cancellation = null)
             where TError : class
             where TResult : class
         {
-            return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { });
+            return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { }, null, cancellation);
         }
 
-        public async Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id, Action<Dictionary<string, string>> parametersBuilder, IPAddress? endpoint = null)
+        public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method, string id, 
+            ApiSettings? apiSettings = null, CancellationToken? cancellation = null)
+            where TResult : class where TError : class
+        {
+            return RequestJsonRpcAsync<TResult, TError>(method, id, parameters => { }, apiSettings, cancellation);
+        }
+
+        public Task<Result<ResultData<TResult, TError>>> RequestJsonRpcAsync<TResult, TError>(string method,
+            string id, Action<Dictionary<string, object>> parametersBuilder, ApiSettings? apiSettings = null,
+            CancellationToken? cancellation = null)
             where TResult : class
             where TError : class
         {
@@ -43,22 +57,41 @@ namespace LinkZoneSdk
 
             var postData = BuildPostData(method, id, parametersBuilder);
 
-            return await OtherExecuteApiPostCall<TResult, TError>(method, client, postData, endpoint).ConfigureAwait(false);
+            return ExecuteApiPostCall<TResult, TError>(method, client, postData, apiSettings, cancellation);
         }
 
-        private static async Task<Result<ResultData<TResult, TError>>> OtherExecuteApiPostCall<TResult, TError>(string method, HttpClient client, PostData postData, IPAddress? address)
+        private static async Task<Result<ResultData<TResult, TError>>> ExecuteApiPostCall<TResult, TError>(string method, HttpClient client,
+            PostData postData, ApiSettings? apiSettings, CancellationToken? cancellation)
             where TError : class
             where TResult : class
         {
-            var url = address == null
-                ? FullApiAddress + method
-                : BuildUrl(address) + ApiCall + method;
+            var timeout = apiSettings?.Timeout ?? ApiSettings.Default().Timeout;
+
+            using var tokenSourceWithTimeout = cancellation.HasValue
+                ? CancellationTokenSource.CreateLinkedTokenSource(cancellation.Value)
+                : new CancellationTokenSource();
+
+            tokenSourceWithTimeout.CancelAfter(timeout);
+
+            var url = apiSettings.HasValue
+                ? BuildUrl(apiSettings.Value.Address) + ApiCall + method
+                : FullApiAddress + method;
 
             var myContent = JsonSerializer.Serialize(postData);
             var buffer = Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
+            
+            var postResponseResult = await Result
+                .Try(() => client.PostAsync(url, byteContent, tokenSourceWithTimeout.Token),
+                    ExceptionCatchHandler())
+                .ConfigureAwait(false);
 
-            var postResponse = await client.PostAsync(url, byteContent).ConfigureAwait(false);
+            if (postResponseResult.IsFailed)
+            {
+                return postResponseResult.ToResult();
+            }
+
+            var postResponse = postResponseResult.Value;
 
             postResponse.EnsureSuccessStatusCode();
 
@@ -70,9 +103,32 @@ namespace LinkZoneSdk
             return Result.Fail<ResultData<TResult, TError>>(new InvalidJsonDataReceivedError(dataReceived));
         }
 
-        private static PostData BuildPostData(string method, string id, Action<Dictionary<string, string>> parametersBuilder)
+        private static Func<Exception, IError> ExceptionCatchHandler()
         {
-            var pairs = new Dictionary<string, string>();
+            return ex =>
+            {
+                switch (ex)
+                {
+                    case HttpRequestException httpRequestException:
+                        return new HttpRequestError().CausedBy(httpRequestException);
+                    case TaskCanceledException taskCanceledException:
+                        return new Error(ex.Message).CausedBy(taskCanceledException);
+                    case OperationCanceledException operationCanceledException:
+                        return new Error(ex.Message).CausedBy(operationCanceledException);
+                }
+
+                if (Debugger.IsAttached)
+                {
+                    Debugger.Break();
+                }
+
+                throw ex;
+            };
+        }
+
+        private static PostData BuildPostData(string method, string id, Action<Dictionary<string, object>> parametersBuilder)
+        {
+            var pairs = new Dictionary<string, object>();
 
             parametersBuilder(pairs);
 

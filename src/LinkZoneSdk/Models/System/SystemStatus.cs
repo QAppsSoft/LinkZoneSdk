@@ -1,17 +1,18 @@
 ﻿using System.Text.Json.Serialization;
+using LinkZoneSdk.Enums;
 using LinkZoneSdk.JsonConverters;
 
 namespace LinkZoneSdk.Models.System
 {
-    public class SystemStatus
+    public sealed class SystemStatus
     {
         [JsonConstructor]
         public SystemStatus(
-            int chgState,
+            ChargeState chargeState,
             int batCap,
             int batLevel,
             int smsState,
-            int connectionStatus,
+            ConnectionStatus connectionStatus,
             int conprofileerror,
             int clearCode,
             int mpdpRejectCount,
@@ -25,7 +26,7 @@ namespace LinkZoneSdk.Models.System
             int totalConnNum
         )
         {
-            this.ChgState = chgState;
+            this.ChargeState = chargeState;
             this.BatCap = batCap;
             this.BatLevel = batLevel;
             this.SmsState = smsState;
@@ -44,7 +45,7 @@ namespace LinkZoneSdk.Models.System
         }
 
         [JsonPropertyName("chg_state")]
-        public int ChgState { get; }
+        public ChargeState ChargeState { get; }
 
         [JsonPropertyName("bat_cap")]
         public int BatCap { get; }
@@ -56,7 +57,7 @@ namespace LinkZoneSdk.Models.System
         public int SmsState { get; }
 
         [JsonPropertyName("ConnectionStatus")]
-        public int ConnectionStatus { get; }
+        public ConnectionStatus ConnectionStatus { get; }
 
         [JsonPropertyName("Conprofileerror")]
         public int Conprofileerror { get; }
