@@ -55,26 +55,30 @@ namespace LinkZoneManager
         private static IServiceCollection ConfigureServices()
         {
             var services = new ServiceCollection();
-            
-            services.AddTransient<MainWindowViewModel>();
-            services.AddSingleton<IBasicInfoReaderService, BasicInfoReaderService>();
 
-            services.AddSingleton<ISchedulerProvider, SchedulerProvider>();
+            services.AddLinkZoneSdk();
+
+            services.AddTransient<MainWindowViewModel>();
             
+            services.AddSingleton<ISchedulerProvider, SchedulerProvider>();
+
+            // Auto-register all services
             services.Scan(scan =>
             {
                 scan.FromCallingAssembly()
-                    .AddClasses(classes => classes.AssignableTo<MobileNetworkService>())
+                    .AddClasses(classes => classes.AssignableTo<IService>())
                     .AsSelfWithInterfaces()
                     .WithSingletonLifetime();
+            });
 
+            // Auto-register all pages
+            services.Scan(scan =>
+            {
                 scan.FromCallingAssembly()
                     .AddClasses(classes => classes.AssignableTo<IPageViewModel>())
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime();
             });
-
-            services.AddLinkZoneSdk();
 
             return services;
         }

@@ -2,6 +2,6 @@
 
 namespace LinkZoneManager.Services.Interfaces;
 
-public interface IMobileNetworkService : IMobileNetworkManager, IMobileNetworkProvider, IDeviceSetting
+public interface IMobileNetworkService : IMobileNetworkManager, IMobileNetworkProvider, IDeviceSetting, IService
 {
 }

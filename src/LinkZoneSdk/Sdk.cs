@@ -66,5 +66,10 @@ namespace LinkZoneSdk
         {
             return this;
         }
+
+        public IUssd Ussd()
+        {
+            return this;
+        }
     }
 }
