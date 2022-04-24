@@ -6,5 +6,6 @@
         IConnection Connection();
         ISystem System();
         INetwork Network();
+        IUssd Ussd();
     }
 }
