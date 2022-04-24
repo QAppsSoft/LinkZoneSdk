@@ -29,13 +29,13 @@
                             Height="1" />
 
                     <Grid ColumnDefinitions="* Auto Auto">
-                        <TextBox Grid.Column="0" Watermark="Enter Code" Text="{Binding UssdValue}" Margin="8" />
+                        <TextBox Grid.Column="0" Watermark="Enter Code" Text="{Binding UssdValue}" Margin="0 8 8 8 " />
                         <Button Grid.Column="1" Command="{Binding ExecuteCode}" CommandParameter="{Binding UssdValue}"
                                 IsDefault="True"
-                                Margin="8">
+                                Margin="8 8 8 8">
                             Execute
                         </Button>
-                        <Button Grid.Column="2" Command="{Binding Cancel}" Margin="8" IsCancel="True">Cancel</Button>
+                        <Button Grid.Column="2" Command="{Binding Cancel}" Margin="8 8 0 8 " IsCancel="True">Cancel</Button>
                     </Grid>
                 </StackPanel>
             </Border>
