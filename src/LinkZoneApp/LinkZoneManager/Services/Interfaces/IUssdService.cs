@@ -1,5 +1,5 @@
 ﻿namespace LinkZoneManager.Services.Interfaces;
 
-public interface IUssdService : IUssdManager
+public interface IUssdService : IUssdManager, IService
 {
 }
