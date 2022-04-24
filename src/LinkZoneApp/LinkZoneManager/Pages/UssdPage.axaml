@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:LinkZoneManager.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:CompileBindings="True" x:DataType="viewModels:UssdViewModel"
+             x:Class="LinkZoneManager.Pages.UssdPage">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  VerticalScrollBarVisibility="Auto"
+                  Padding="18">
+        <StackPanel Spacing="4">
+            <Border Padding="{StaticResource ButtonPadding}"
+                    Background="{DynamicResource ControlFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource OverlayCornerRadius}">
+                <StackPanel Spacing="16">
+
+                    <Border Margin="0 8 0 0" Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Padding="16" MinHeight="120" CornerRadius="8">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding UssdResponse}" />
+                    </Border>
+
+                    <Border Background="{DynamicResource ApplicationPageBackgroundThemeBrush}"
+                            Margin="-20"
+                            Height="1" />
+
+                    <Grid ColumnDefinitions="* Auto Auto">
+                        <TextBox Grid.Column="0" Watermark="Enter Code" Text="{Binding UssdValue}" Margin="8" />
+                        <Button Grid.Column="1" Command="{Binding ExecuteCode}" CommandParameter="{Binding UssdValue}"
+                                IsDefault="True"
+                                Margin="8">
+                            Execute
+                        </Button>
+                        <Button Grid.Column="2" Command="{Binding Cancel}" Margin="8" IsCancel="True">Cancel</Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
