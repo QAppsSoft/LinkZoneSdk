@@ -69,6 +69,11 @@ namespace LinkZoneManager
                     .WithSingletonLifetime();
 
                 scan.FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo<UssdService>())
+                    .AsSelfWithInterfaces()
+                    .WithSingletonLifetime();
+
+                scan.FromCallingAssembly()
                     .AddClasses(classes => classes.AssignableTo<IPageViewModel>())
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime();
