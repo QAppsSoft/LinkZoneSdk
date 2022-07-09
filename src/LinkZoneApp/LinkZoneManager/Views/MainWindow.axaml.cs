@@ -1,6 +1,8 @@
 using System;
+using System.Runtime.InteropServices;
 using Avalonia;
 using Avalonia.Controls;
+using FluentAvalonia.Styling;
 using FluentAvalonia.UI.Controls;
 
 namespace LinkZoneManager.Views
@@ -10,6 +12,8 @@ namespace LinkZoneManager.Views
         public MainWindow()
         {
             InitializeComponent();
+            
+            FixWhiteOutline();
 #if DEBUG
             this.AttachDevTools();
 #endif
@@ -45,6 +49,15 @@ namespace LinkZoneManager.Views
                     // notify you of a change in the SystemOverlay[Left/Right]Inset properties and require adjusting
                     // that margin
                 }
+            }
+        }
+        
+        private void FixWhiteOutline()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                var thm = AvaloniaLocator.Current.GetService<FluentAvaloniaTheme>();
+                thm?.ForceWin32WindowToTheme(this);
             }
         }
     }
